@@ -6,7 +6,7 @@ from .models import UserModel
 
 class UsergGateway:
     def __init__(self):
-        self.model = UserModel()
+        self.model = UserModel
         self.db = Database()
 
     def create(self, *, email, password):
@@ -20,3 +20,16 @@ class UsergGateway:
                 VALUES ( ? , ? , ? )
         '''
         self.db.cursor.execute(insert_user_query, (email, hashed_password, salt))
+
+    def login(self, *, email, password):
+        fetched = self.model.email_exists(email)
+        if fetched is None:
+            raise ValueError('No account with such email!')
+
+        salted_password = password + fetched[3]
+        hashed_password = hashlib.sha256(salted_password.encode()).hexdigest()
+
+        if hashed_password == fetched[2]:
+            return UserModel(fetched[0], email, hashed_password)
+        else:
+            raise ValueError('Invalid password!')

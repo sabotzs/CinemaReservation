@@ -6,7 +6,10 @@ class UserViews:
         self.controller = UserController()
 
     def login(self):
-        pass
+        email = input('Email: ')
+        password = input('Password: ')
+
+        self.controller.login(email=email, password=password)
 
     def signin(self):
         email = input('Email: ')
