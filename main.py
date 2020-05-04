@@ -1,5 +1,6 @@
 import sys
 from db import Database
+from db_schema import CREATE_USERS
 from index_view import welcome
 
 
@@ -26,4 +27,4 @@ if __name__ == '__main__':
         Application.start()
     else:
         raise ValueError(f'Unknown command {command}. Valid ones are "build" and "start"')
-    
+ 
