@@ -1,6 +1,6 @@
 import sys
 from db import Database
-from db_schema import CREATE_USERS
+from db_schema import *
 from index_view import welcome
 
 
@@ -8,7 +8,11 @@ class Application:
     @classmethod
     def build(cls):
         db = Database()
-        db.cursor.execute()
+
+        db.cursor.execute(CREATE_MOVIES)
+        db.cursor.execute(CREATE_USERS)
+        db.cursor.execute(CREATE_PROJECTIONS)
+        db.cursor.execute(CREATE_RESERVATIONS)
 
         db.connection.commit()
         db.connection.close()
@@ -27,4 +31,3 @@ if __name__ == '__main__':
         Application.start()
     else:
         raise ValueError(f'Unknown command {command}. Valid ones are "build" and "start"')
- 
