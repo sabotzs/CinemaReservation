@@ -8,10 +8,10 @@ CREATE_MOVIES = f'''
 
 CREATE_USERS = f'''
     CREATE TABLE IF NOT EXISTS users (
-        id integer primary key,
-        username varchar(50) unique,
-        password varchar(100),
-        salt varchar(50) 
+        id integer primary key AUTOINCREMENT,
+        email varchar(50) unique,
+        password varchar(64),
+        salt varchar(50)
     );
 '''
 

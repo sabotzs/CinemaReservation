@@ -1,5 +1,7 @@
 import re
+from ..db import Database
 regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+
 
 class UserModel:
     def __init__(self, *, id, email, password):
@@ -12,5 +14,14 @@ class UserModel:
         if not (re.search(regex, email)):
             raise ValueError("Wrong email! ")
         else:
-            pass
-
+            db = Database()
+            check_unique_email_query = '''
+                SELECT email
+                    FROM users
+                    WHERE email = ?
+            '''
+            db.cursor.execute(check_unique_email_query, (email))
+            fetched = db.cursor.fetchone()
+            if fetched is not None:
+                raise ValueError("Email already exists! ")
+        # TODO: validate password

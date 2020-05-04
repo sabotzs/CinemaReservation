@@ -1,3 +1,5 @@
+import hashlib
+from os import urandom
 from ..db import Database
 from .models import UserModel
 
@@ -9,5 +11,12 @@ class UsergGateway:
 
     def create(self, *, email, password):
         self.model.validate(email, password)
+        salt = urandom(10)
+        salted_password = password + salt
+        hashed_password = hashlib.sha256(salted_password.encode()).hexdigest()
 
-        self.db.cursor.execute() # TODO: create user query
+        insert_user_query = '''
+            INSERT INTO users (email, password, salt)
+                VALUES ( ? , ? , ? )
+        '''
+        self.db.cursor.execute(insert_user_query, (email, hashed_password, salt))
