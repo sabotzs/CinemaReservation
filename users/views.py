@@ -13,6 +13,6 @@ class UserViews:
 
     def signin(self):
         email = input('Email: ')
-        password = input('password')
+        password = input('Password: ')
 
         self.controller.create_user(email=email, password=password)

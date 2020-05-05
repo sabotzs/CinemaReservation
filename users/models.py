@@ -25,8 +25,10 @@ class UserModel:
         check_unique_email_query = '''
             SELECT id, email, password, salt
                 FROM users
-                WHERE email = ?
+                WHERE email = ?;
         '''
-        db.cursor.execute(check_unique_email_query, (email))
+        db.cursor.execute(check_unique_email_query, (email,))
         fetched = db.cursor.fetchone()
+        db.connection.commit()
+        db.connection.close()
         return fetched

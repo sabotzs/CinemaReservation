@@ -11,7 +11,7 @@ class UserGateway:
 
     def create(self, *, email, password):
         self.model.validate(email, password)
-        salt = urandom(10)
+        salt = str(urandom(10))
         salted_password = password + salt
         hashed_password = hashlib.sha256(salted_password.encode()).hexdigest()
 
@@ -20,6 +20,7 @@ class UserGateway:
                 VALUES ( ? , ? , ? )
         '''
         self.db.cursor.execute(insert_user_query, (email, hashed_password, salt))
+        self.db.connection.commit()
 
     def login(self, *, email, password):
         fetched = self.model.email_exists(email)
