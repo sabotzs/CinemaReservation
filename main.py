@@ -1,5 +1,4 @@
 import sys
-from db import Database
 from db_schema import *
 from index_view import welcome
 

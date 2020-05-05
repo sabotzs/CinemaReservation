@@ -31,6 +31,6 @@ CREATE_RESERVATIONS = f'''
         user_id integer,
         projection_id integer,
         row integer NOT NULL,
-        col integer NOT NNLL
+        col integer NOT NULL
     );
 '''

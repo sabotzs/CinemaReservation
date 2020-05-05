@@ -1,10 +1,10 @@
 import hashlib
 from os import urandom
-from ..db import Database
+from db_schema import Database
 from .models import UserModel
 
 
-class UsergGateway:
+class UserGateway:
     def __init__(self):
         self.model = UserModel
         self.db = Database()

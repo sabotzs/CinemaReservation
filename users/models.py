@@ -1,5 +1,5 @@
 import re
-from ..db import Database
+from db_schema import Database
 regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 
 
