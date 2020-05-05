@@ -1,6 +1,6 @@
 import sys
 from db_schema import *
-from index_view import welcome
+from index_view import welcome, login
 
 
 class Application:
@@ -18,6 +18,7 @@ class Application:
 
     @classmethod
     def start(cls):
+        # login()
         welcome()
 
 
