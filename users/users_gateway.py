@@ -31,6 +31,6 @@ class UserGateway:
         hashed_password = hashlib.sha256(salted_password.encode()).hexdigest()
 
         if hashed_password == fetched[2]:
-            return UserModel(fetched[0], email, hashed_password)
+            return UserModel(user_id=fetched[0], email=email, password=hashed_password)
         else:
             raise ValueError('Invalid password!')
