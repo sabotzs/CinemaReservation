@@ -9,6 +9,7 @@ def welcome():
     user = None
 
     # show movies
+    # in dict 
     if args[0] == 's':
         user_views.show_movies()
     if args[0] == 'p':

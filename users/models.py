@@ -9,6 +9,9 @@ class UserModel:
         self.email = email
         self.password = password
 
+        # self.getaway = UserGetaway()
+
+    # to be class method
     @staticmethod
     def validate(email, password):
         if not (re.search(regex, email)):
@@ -32,7 +35,6 @@ class UserModel:
         db.connection.commit()
         db.connection.close()
         return fetched
-
 
     @staticmethod
     def show_movies():

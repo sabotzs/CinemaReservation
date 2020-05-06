@@ -1,6 +1,6 @@
 import sys
 from db_schema import *
-from index_view import *
+from view import *
 
 
 class Application:
