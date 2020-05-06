@@ -21,6 +21,8 @@ def welcome():
         pass
     if args[0] == 'h':
         pass
+    if args[0] == 'l':
+        login()
 
 
 def make_reservation(user, user_views):
