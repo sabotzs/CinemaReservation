@@ -43,9 +43,10 @@ if __name__ == '__main__':
 
     if command == 'build':
         Application.build()
-        Application.admin()
         Application.update_info()
     elif command == 'start':
         Application.start()
+    elif command == 'admin':
+        Application.admin()
     else:
         raise ValueError(f'Unknown command {command}. Valid ones are "build" and "start"')

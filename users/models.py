@@ -1,6 +1,7 @@
 import re
 from db_schema import Database
-regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+from .users_gateway import UserGateway
+# regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 
 
 class UserModel:
@@ -8,33 +9,31 @@ class UserModel:
         self.id = user_id
         self.email = email
         self.password = password
-
-        # self.getaway = UserGetaway()
+        self.gateway = UserGateway()
 
     # to be class method
-    @staticmethod
-    def validate(email, password):
-        if not (re.search(regex, email)):
+    def validate(self, email, password):
+        if not self.gateway.validate(email):
             raise ValueError("Wrong email! ")
         else:
-            fetched = UserModel.email_exists(email)
-            if fetched is not None:
+            id_info = self.gateway.email_exists(email)
+            if id_info is not None:
                 raise ValueError("Email already exists! ")
         # TODO: validate password
 
-    @staticmethod
-    def email_exists(email):
-        db = Database()
-        check_unique_email_query = '''
-            SELECT id, email, password, salt
-                FROM users
-                WHERE email = ?;
-        '''
-        db.cursor.execute(check_unique_email_query, (email,))
-        fetched = db.cursor.fetchone()
-        db.connection.commit()
-        db.connection.close()
-        return fetched
+    # @staticmethod
+    # def email_exists(email):
+    #     db = Database()
+    #     check_unique_email_query = '''
+    #         SELECT id, email, password, salt
+    #             FROM users
+    #             WHERE email = ?;
+    #     '''
+    #     db.cursor.execute(check_unique_email_query, (email,))
+    #     fetched = db.cursor.fetchone()
+    #     db.connection.commit()
+    #     db.connection.close()
+    #     return fetched
 
     @staticmethod
     def show_movies():
@@ -102,33 +101,5 @@ class UserModel:
         db.connection.close()
         return projection_info
 
-    @staticmethod
-    def reserve_seats(user_id, projection_id, seats):
-        db = Database()
-        insert_reservation_query = '''
-            INSERT INTO reservations (user_id, projection_id, row, col)
-                VALUES (?, ?, ?, ?)
-        '''
-        for seat in seats:
-            db.cursor.execute(insert_reservation_query, (user_id, projection_id, *seat))
-        db.connection.commit()
-        db.connection.close()
-
-    @staticmethod
-    def log_super_admin(email):
-        db = Database()
-        find_if_by_email_query = '''
-            SELECT id
-                FROM users
-                WHERE email = ?;
-        '''
-        db.cursor.execute(find_if_by_email_query, (email,))
-        id_info = db.cursor.fetchone()
-        id_info = int(id_info[0])
-        insert_into_admins = '''
-            INSERT INTO admins (admin_id, work_position)
-                VALUES(?, ?)
-        '''
-        db.cursor.execute(insert_into_admins, (id_info, "super admin"))
-        db.connection.commit()
-        db.connection.close()
+    def reserve_seats(self, user_id, projection_id, seats):
+        self.gateway.reserve_seats(user_id, projection_id, seats)

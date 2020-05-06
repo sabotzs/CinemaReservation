@@ -12,8 +12,12 @@ class UserController:
         self.login(email, password)
 
     def login(self, email, password):
-        user = self.users_gateway.login(email=email, password=password)
-        return user
+        fetched = self.users_gateway.login(email=email, password=password)
+        if fetched is not None:
+            user = UserModel(user_id=fetched[0], email=email, password=fetched[2])
+            return user
+        else:
+            raise ValueError('Invalid password!')
 
     def show_movies(self):
         movies = self.model.show_movies()
@@ -38,7 +42,7 @@ class UserController:
         return pr_info
 
     def reserve_seats(self, user_id, projection_id, seats):
-        self.users_gateway.reserve_seats(user_id, projection_id, seats)
+        self.model.reserve_seats(user_id, projection_id, seats)
 
     def log_super_admin(self, email):
         self.users_gateway.log_super_admin(email=email)
