@@ -12,9 +12,15 @@ class Application:
         db.cursor.execute(CREATE_USERS)
         db.cursor.execute(CREATE_PROJECTIONS)
         db.cursor.execute(CREATE_RESERVATIONS)
+        db.cursor.execute(CREATE_ADMINS)
+        db.cursor.execute(CREATE_CLIENTS)
 
         db.connection.commit()
         db.connection.close()
+
+    @classmethod
+    def admin(cls):
+        create_super_admin()
 
     @classmethod
     def update_info(cls):
@@ -37,9 +43,9 @@ if __name__ == '__main__':
 
     if command == 'build':
         Application.build()
+        Application.admin()
+        Application.update_info()
     elif command == 'start':
         Application.start()
-    elif command == 'update':
-        Application.update_info()
     else:
         raise ValueError(f'Unknown command {command}. Valid ones are "build" and "start"')

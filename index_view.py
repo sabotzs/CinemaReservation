@@ -98,3 +98,8 @@ def login():
     elif command == 2:
         return user_views.signin()
     raise ValueError(f'Unknown command {command}.')
+
+
+def create_super_admin():
+    user_views = UserViews()
+    user_views.log_super_admin()
