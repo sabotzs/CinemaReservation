@@ -17,6 +17,16 @@ class Application:
         db.connection.close()
 
     @classmethod
+    def update_info(cls):
+        db = Database()
+        db.cursor.execute(INSERT_MOVIES)
+        db.cursor.execute(INSERT_PROJECTIONS)
+        db.cursor.execute(INSERT_RESERVATIONS)
+
+        db.connection.commit()
+        db.connection.close()
+
+    @classmethod
     def start(cls):
         # login()
         welcome()
@@ -29,5 +39,7 @@ if __name__ == '__main__':
         Application.build()
     elif command == 'start':
         Application.start()
+    elif command == 'update':
+        Application.update_info()
     else:
         raise ValueError(f'Unknown command {command}. Valid ones are "build" and "start"')
