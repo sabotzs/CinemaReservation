@@ -53,3 +53,6 @@ class UserGateway:
 
     def reserve_seats(self, user_id, projection_id, seats):
         self.model.reserve_seats(user_id, projection_id, seats)
+
+    def log_super_admin(self, *, email):
+        self.model.log_super_admin(email)

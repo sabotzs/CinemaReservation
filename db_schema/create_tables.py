@@ -37,3 +37,17 @@ CREATE_RESERVATIONS = f'''
         FOREIGN KEY (projection_id) REFERENCES projections(id)
     );
 '''
+
+CREATE_CLIENTS = f'''
+    CREATE TABLE IF NOT EXISTS clients (
+        id integer primary key AUTOINCREMENT,
+        bonus_code varchar(50) unique
+    );
+'''
+
+CREATE_ADMINS = f'''
+    CREATE TABLE IF NOT EXISTS admins (
+        admin_id integer primary key AUTOINCREMENT,
+        work_position varchar(50) NOT NULL
+    );
+'''

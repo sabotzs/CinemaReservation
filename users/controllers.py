@@ -56,3 +56,6 @@ class UserController:
 
     def reserve_seats(self, user_id, projection_id, seats):
         self.users_gateway.reserve_seats(user_id, projection_id, seats)
+
+    def log_super_admin(self, email):
+        self.users_gateway.log_super_admin(email=email)

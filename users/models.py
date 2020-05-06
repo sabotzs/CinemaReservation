@@ -111,3 +111,22 @@ class UserModel:
             db.cursor.execute(insert_reservation_query, (user_id, projection_id, *seat))
         db.connection.commit()
         db.connection.close()
+
+    @staticmethod
+    def log_super_admin(email):
+        db = Database()
+        find_if_by_email_query = '''
+            SELECT id
+                FROM users
+                WHERE email = ?;
+        '''
+        db.cursor.execute(find_if_by_email_query, (email,))
+        id_info = db.cursor.fetchone()
+        id_info = int(id_info[0])
+        insert_into_admins = '''
+            INSERT INTO admins (admin_id, work_position)
+                VALUES(?, ?)
+        '''
+        db.cursor.execute(insert_into_admins, (id_info, "super admin"))
+        db.connection.commit()
+        db.connection.close()

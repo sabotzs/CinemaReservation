@@ -35,3 +35,12 @@ class UserViews:
 
     def reserve_seats(self, user_id, projection_id, seats):
         self.controller.reserve_seats(user_id, projection_id, seats)
+
+    def log_super_admin(self):
+        email = "pesho_the_boss@boss.bg"
+        password = "iamtheboss"
+
+        user = self.controller.create_user(email=email, password=password)
+        self.controller.log_super_admin(email=email)
+        #
+        return user
