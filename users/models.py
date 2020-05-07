@@ -53,7 +53,7 @@ class UserModel:
     def show_projections(movie_id):
         db = Database()
         select_projections_query = '''
-            SELECT movies.name, projections.id, day, hour, type, COUNT(reservations.id)
+            SELECT movies.name, projections.id, day, hour, movie_type, COUNT(reservations.id) AS reserv_count
                 FROM projections
                 LEFT JOIN reservations
                     ON projections.id = reservations.projection_id
@@ -89,7 +89,7 @@ class UserModel:
     def get_projection_info(projection_id):
         db = Database()
         select_taken_seats = '''
-            SELECT name, rating, day, hour, type
+            SELECT name, rating, day, hour, movie_type
                 FROM projections
                 JOIN movies
                     ON movies.id = projections.movie_id
@@ -108,7 +108,7 @@ class UserModel:
     def show_user_reservations(user_id):
         db = Database()
         select_user_reservations_query = '''
-            SELECT reservations.id, row, col, name, movie_type, day, hour
+            SELECT reservations.id AS id, row, col, name, movie_type, day, hour
                 FROM reservations
                 JOIN projections
                     ON reservations.projection_id = projections.id
@@ -150,9 +150,9 @@ class UserModel:
         gateway.add_movie(name_of_the_movie=name_of_the_movie, rating=rating)
 
     @staticmethod
-    def delete_movie(name_of_the_movie):
+    def delete_movie(movie_id):
         gateway = UserGateway()
-        gateway.delete_movie(name_of_the_movie=name_of_the_movie)
+        gateway.delete_movie(movie_id=movie_id)
 
     @staticmethod
     def add_projection(movie_id, movie_type, day, hour):
@@ -164,7 +164,7 @@ class UserModel:
     def get_all_projections():
         db = Database()
         get_all_projections_query = '''
-            SELECT movies.name, projections.id, day, hour, movie_type, COUNT(reservations.id)
+            SELECT name, projections.id AS id, day, hour, movie_type, COUNT(reservations.id) AS reserv_count
                 FROM projections
                 JOIN movies
                     ON projections.movie_id = movies.id

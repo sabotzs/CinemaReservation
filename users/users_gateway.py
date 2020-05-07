@@ -70,14 +70,16 @@ class UserGateway:
                 WHERE email = ?;
         '''
         db.cursor.execute(check_unique_email_query, (email,))
-        info_by_email = db.cursor.fetchall()
+        info_by_email = db.cursor.fetchone()
         db.connection.commit()
         db.connection.close()
-        if len(info_by_email) == 0:
-            return None
-        else:
-            info_by_email = info_by_email[0]
-            return info_by_email
+        
+        # if len(info_by_email) == 0:
+        #     return None
+        # else:
+        #     return info_by_email
+        #     info_by_email = info_by_email[0]
+        return info_by_email
 
     # def log_super_admin(self, *, id_info):
     #     db = Database()
@@ -98,7 +100,7 @@ class UserGateway:
         '''
         db.cursor.execute(get_id, (email,))
         id_fetched = db.cursor.fetchone()
-        id_info = int(id_fetched[0])
+        id_info = int(id_fetched['id'])
         insert_into_admins = f'''
             INSERT INTO admins (admin_id, work_position)
                 VALUES(?, ?)
@@ -126,18 +128,18 @@ class UserGateway:
         db.connection.commit()
         db.connection.close()
 
-    def remove_movie(self, *, name_of_the_movie):
+    def delete_movie(self, *, movie_id):
         db = Database()
         get_movie_query = '''
             SELECT id
                 FROM movies
-                WHERE name = ?
+                WHERE id = ?
         '''
-        db.cursor.execute(get_movie_query, (name_of_the_movie,))
+        db.cursor.execute(get_movie_query, (movie_id,))
         info = db.cursor.fetchone()
         if info is None:
             return "That movies doesn't belong to the DB"
-        movie_id = int(info[0][0])
+
         delete_movie_query = '''
             DELETE
             FROM movies
@@ -165,7 +167,7 @@ class UserGateway:
             raise ValueError("Wrong input! ")
         movie_id = info[0][0]
         insert_projection = '''
-            INSERT INTO projections (movie_id, type, day, hour)
+            INSERT INTO projections (movie_id, movie_type, day, hour)
             VALUES(?, ?, ?, ?);
         '''
         db.cursor.execute(insert_projection, (movie_id, movie_type, day, hour))
@@ -189,5 +191,15 @@ class UserGateway:
                 WHERE id = ?;
         '''
         db.cursor.execute(delete_projection_query, (projection_id,))
+        db.connection.commit()
+        db.connection.close()
+
+    def hire_employee(self, employee_id):
+        db = Database()
+        insert_employee_query = '''
+            INSERT INTO admins (admin_id, work_possition)
+                VALUES ( ? , ? )
+        '''
+        db.cursor.execute(insert_employee_query, (employee_id, 'Employee'))
         db.connection.commit()
         db.connection.close()

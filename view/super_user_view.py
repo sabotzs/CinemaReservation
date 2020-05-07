@@ -8,19 +8,18 @@ def super_admin_welcome():
         >>> "2" - Remove movie and all projections for it
         >>> "3" - Add projection for a movie
         >>> "4" - Remove projection for a movie
-        >>> "5" - Fire somebody
+        >>> "5" - Hire somebody
         >>> "6" - Close the cinema
         >>> "7" - Exit
     '''
-    print(options)
     command = input(options)
     command = int(command)
-    print(command)
     options_dic = {
         1: views.add_movie,
         2: views.delete_movie,
         3: views.add_projection,
         4: views.delete_projection,
+        5: views.hire_employee,
         7: goodbay_command
     }
     ### more will be added
@@ -30,3 +29,6 @@ def super_admin_welcome():
 def goodbay_command():
     print("Goodbay! Have a nice day! ")
 
+def create_super_admin():
+    user_views = UserViews()
+    user_views.log_super_admin()

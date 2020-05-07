@@ -22,7 +22,7 @@ class UserViews:
     def show_movies(self):
         movies = self.controller.show_movies()
         for movie in movies:
-            print(f'[{movie[0]}] - {movie[1]} - ({movie[2]})')
+            print(f"[{movie['id']}] - {movie['name']} - ({movie['rating']})")
 
     def show_projections(self, movie_id):
         projections = self.controller.show_projections(movie_id)
@@ -30,9 +30,9 @@ class UserViews:
             print('No projections for that movie!')
             return False
         else:
-            print(f'Projections for movie {projections[0][0]}:')
-            for projection in projections:
-                print(f'[{projection[1]}] - {projection[2]} {projection[3]} ({projection[4]}), {100 - projection[5]}')
+            print(f"Projections for movie {projections[0]['name']}:")
+            for proj in projections:
+                print(f"[{proj['id']}] - {proj['day']} {proj['hour']} ({proj['movie_type']}), {100 - proj['reserv_count']}")
             return True
 
 
@@ -54,8 +54,8 @@ class UserViews:
 
     def show_projection_info(self, projection_id):
         pr_info = self.controller.show_projection_info(projection_id)
-        info = f'Movie: {pr_info[0]} ({pr_info[1]})\n' +\
-            f'Date and Time: {pr_info[2]} {pr_info[3]} ({pr_info[4]})'
+        info = f"Movie: {pr_info['name']} ({pr_info['rating']})\n" +\
+            f"Date and Time: {pr_info['day']} {pr_info['hour']} ({pr_info['movie_type']})"
         print(info)
 
     def reserve_seats(self, user_id, projection_id, seats):
@@ -64,10 +64,10 @@ class UserViews:
     def show_user_reservations(self, user_id):
         user_reservations = self.controller.show_user_reservations(user_id)
         for r in user_reservations:
-            print(f'ID: {r[0]}, Seat ({r[1]},{r[2]}) for {r[3]} ({r[4]}) on {r[5]} at {r[6]} ')
+            print(f"ID: {r['id']}, Seat ({r['row']},{r['col']}) for {r['name']} ({r['movie_type']}) on {r['day']} at {r['hour']} ")
 
     def cancel_reservations(self, user_id):
-        ids = input('Enter reservation ids (separated by ,):\n>>>')
+        ids = input("Enter reservation ids (separated by ,):\n>>>")
         reservations_id = [int(i) for i in ids.split(',')]
         self.controller.cancel_reservations(user_id, reservations)
 
@@ -89,8 +89,9 @@ class UserViews:
         self.controller.add_movie(name_of_the_movie, rating)
 
     def delete_movie(self):
-        name_of_the_movie = input('Please, insert the  title of the movie: ')
-        self.controller.delete_movie(name_of_the_movie)
+        self.show_movies()
+        movie_id = input('Please, insert the id of the movie: ')
+        self.controller.delete_movie(movie_id)
 
     def add_projection(self):
         self.show_movies()
@@ -102,11 +103,17 @@ class UserViews:
         hour = input('Choose a hour: ')
         self.controller.add_projecion(movie_id, movie_type, day, hour)
 
-    def delete_projections(self):
+    def delete_projection(self):
         all_pr = self.controller.get_all_projections()
-        for title in all_pr.keys()
-            print(f'Projections for {title}:')
-            for pr in all_pr[title]:
-                print(f'ID: {pr[0]}, on {pr[1]} at {pr[2]} ({pr[3]}) Reservations: {pr[4]}')
+        for pr in all_pr:
+            print(pr['name'])
+            print(f"ID: {pr['id']}, on {pr['day']} at {pr['hour']} ({pr['movie_type']}) Reservations: {pr['reserv_count']}")
+        
         projection_id = input('Select projection id: ')
-        self.controller.delete_projections(projections_ids)
+        self.controller.delete_projection(projection_id)
+
+    def hire_employee(self):
+        email = input('Enter employee email: ')
+        password = input('Enter employee password: ')
+        employee = self.controller.create_user(email=email, password=password)
+        self.controller.hire_employee(employee.id)

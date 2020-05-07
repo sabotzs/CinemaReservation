@@ -48,10 +48,9 @@ if __name__ == '__main__':
     if command == 'build':
         Application.build()
         Application.update_info()
+        Application.admin()
     elif command == 'start':
         Application.start()
-    elif command == 'admin':
-        Application.admin()
     elif command == 'super':
         Application.admin_view()
     else:

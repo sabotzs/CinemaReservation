@@ -9,12 +9,12 @@ class UserController:
 
     def create_user(self, email, password):
         self.users_gateway.create(email=email, password=password)
-        self.login(email, password)
+        return self.login(email, password)
 
     def login(self, email, password):
         fetched = self.users_gateway.login(email=email, password=password)
         if fetched is not None:
-            user = UserModel(user_id=fetched[0], email=email, password=fetched[2])
+            user = UserModel(user_id=fetched['id'], email=email, password=fetched['password'])
             return user
         else:
             raise ValueError('Invalid password!')
@@ -57,21 +57,18 @@ class UserController:
     def add_movie(self, name_of_the_movie, rating):
         self.model.add_movie(name_of_the_movie, rating)
 
-    def delete_movie(self, name_of_the_movie):
-        self.model.delete_movie(name_of_the_movie)
+    def delete_movie(self, movie_id):
+        self.model.delete_movie(movie_id)
 
     def add_projecion(self, movie_id, movie_type, day, hour):
         self.model.add_projection(movie_id, movie_type, day, hour)
 
     def get_all_projections(self):
-        all_proj = self.modle.get_all_projections()
-        proj_dict = {}
-        for proj in all_proj:
-            if proj[0] in proj_dict.keys():
-                proj_dict[proj[0]].append(proj[1:])
-            else:
-                proj_dict[proj[0]] = [proj[1:]]
-        return proj_dict
+        all_proj = self.model.get_all_projections()
+        return all_proj
 
     def delete_projection(self, projection_id):
         self.model.delete_projection(projection_id)
+
+    def hire_employee(self, employee_id):
+        self.users_gateway.hire_employee(employee_id)

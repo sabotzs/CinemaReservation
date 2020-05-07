@@ -117,8 +117,3 @@ def print_help():
         f'- cancel_reservation (requires login)\n' +\
         f'- exit'
     print(help_message)
-
-
-def create_super_admin():
-    user_views = UserViews()
-    user_views.log_super_admin()
