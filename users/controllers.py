@@ -72,3 +72,6 @@ class UserController:
             else:
                 proj_dict[proj[0]] = [proj[1:]]
         return proj_dict
+
+    def delete_projection(self, projection_id):
+        self.model.delete_projection(projection_id)

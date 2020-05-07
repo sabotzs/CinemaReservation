@@ -175,3 +175,8 @@ class UserModel:
         db.cursor.execute(get_all_projections_query)
         all_pr = db.cursor.fetchall()
         return all_pr
+
+    @staticmethod
+    def delete_projection(projection_id):
+        gateway = UserGateway()
+        gateway.delete_projection(projection_id=projection_id)

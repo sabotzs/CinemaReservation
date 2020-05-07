@@ -20,6 +20,7 @@ def super_admin_welcome():
         1: views.add_movie,
         2: views.delete_movie,
         3: views.add_projection,
+        4: views.delete_projection,
         7: goodbay_command
     }
     ### more will be added

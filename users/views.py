@@ -109,3 +109,4 @@ class UserViews:
             for pr in all_pr[title]:
                 print(f'ID: {pr[0]}, on {pr[1]} at {pr[2]} ({pr[3]}) Reservations: {pr[4]}')
         projection_id = input('Select projection id: ')
+        self.controller.delete_projections(projections_ids)
