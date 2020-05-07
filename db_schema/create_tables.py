@@ -22,7 +22,7 @@ CREATE_PROJECTIONS = f'''
         movie_type varchar(10),
         day varchar(50),
         hour varchar(50),
-        FOREIGN KEY (movie_id) REFERENCES movies(id)
+        FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE
     );
 '''
 
@@ -34,7 +34,7 @@ CREATE_RESERVATIONS = f'''
         row integer NOT NULL CHECK (0 < row AND row < 11),
         col integer NOT NULL CHECK (0 < col AND col < 11),
         FOREIGN KEY (user_id) REFERENCES users(id),
-        FOREIGN KEY (projection_id) REFERENCES projections(id)
+        FOREIGN KEY (projection_id) REFERENCES projections(id) ON DELETE CASCADE
     );
 '''
 
