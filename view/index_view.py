@@ -17,7 +17,7 @@ def welcome():
     if args[0] == 'm':
         make_reservation(user, user_views)
     if args[0] == 'c':
-        pass
+        cancel_reservation(user, user_views)
     if args[0] == 'e':
         pass
     if args[0] == 'h':
@@ -100,6 +100,12 @@ def login():
         return user_views.signin()
     raise ValueError(f'Unknown command {command}.')
 
+def cancel_reservation(user, user_views):
+    if user is None:
+        user = user_views.login()
+    if user.email == email:
+        user_views.show_user_reservations(user.id)
+        user_views.cancel_reservation(user.id)
 
 def create_super_admin():
     user_views = UserViews()

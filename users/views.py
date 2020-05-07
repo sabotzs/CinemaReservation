@@ -61,6 +61,16 @@ class UserViews:
     def reserve_seats(self, user_id, projection_id, seats):
         self.controller.reserve_seats(user_id, projection_id, seats)
 
+    def show_user_reservations(self, user_id):
+        user_reservations = self.controller.show_user_reservations(user_id)
+        for r in user_reservations:
+            print(f'ID: {r[0]}, Seat ({r[1]},{r[2]}) for {r[3]} ({r[4]}) on {r[5]} at {r[6]} ')
+
+    def cancel_reservations(self, user_id):
+        ids = input('Enter reservation ids (separated by ,):\n>>>')
+        reservations_id = [int(i) for i in ids.split(',')]
+        self.controller.cancel_reservations(user_id, reservations)
+
     def log_super_admin(self):
         email = input('Email for admin: ')
         password = input('Password for admin: ')

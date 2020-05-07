@@ -44,6 +44,13 @@ class UserController:
     def reserve_seats(self, user_id, projection_id, seats):
         self.model.reserve_seats(user_id, projection_id, seats)
 
+    def show_user_reservations(self, user_id):
+        user_reservations = self.model.show_user_reservations(user_id)
+        return user_reservations
+
+    def cancel_reservations(self, user_id, reservations):
+        self.model.cancel_reservations(user_id, reservations)
+
     def log_super_admin(self, email):
         self.users_gateway.log_super_admin(email=email)
 
