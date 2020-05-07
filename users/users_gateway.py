@@ -144,12 +144,7 @@ class UserGateway:
             WHERE id = ?;
         '''
         db.cursor.execute(delete_movie_query, (movie_id,))
-        delete_projections_query = '''
-            DELETE
-            FROM projections
-            WHERE movie_id = ?;
-        '''
-        db.cursor.execute(delete_projections_query, (movie_id,))
+        
         db.connection.commit()
         db.connection.close()
         return "Successfully deleted!"
