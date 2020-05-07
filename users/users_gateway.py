@@ -79,15 +79,15 @@ class UserGateway:
             info_by_email = info_by_email[0]
             return info_by_email
 
-    def log_super_admin(self, *, id_info):
-        db = Database()
-        insert_into_admins = f'''
-            INSERT INTO admins (admin_id, work_position)
-                VALUES(?, ?)
-        '''
-        db.cursor.execute(insert_into_admins, (id_info, "super admin"))
-        db.connection.commit()
-        db.connection.close()
+    # def log_super_admin(self, *, id_info):
+    #     db = Database()
+    #     insert_into_admins = f'''
+    #         INSERT INTO admins (admin_id, work_position)
+    #             VALUES(?, ?)
+    #     '''
+    #     db.cursor.execute(insert_into_admins, (id_info, "super admin"))
+    #     db.connection.commit()
+    #     db.connection.close()
 
     def log_super_admin(self, *, email):
         db = Database()
@@ -127,7 +127,7 @@ class UserGateway:
         db.connection.close()
 
     def remove_movie(self, *, name_of_the_movie):
-        dn = Database()
+        db = Database()
         get_movie_query = '''
             SELECT id
                 FROM movies
@@ -139,7 +139,7 @@ class UserGateway:
             return "That movies doesn't belong to the DB"
         movie_id = int(info[0][0])
         delete_movie_query = '''
-            DELETE 
+            DELETE
             FROM movies
             WHERE id = ?;
         '''
@@ -153,3 +153,26 @@ class UserGateway:
         db.connection.commit()
         db.connection.close()
         return "Successfully deleted!"
+
+    def add_projection(self, *, movie_id, movie_type, day, hour):
+        db = Database()
+        check_movie_id_exists = '''
+            SELECT id
+            FROM movies
+            WHERE id = ?;
+        '''
+        db.cursor.execute(check_movie_id_exists, (movie_id,))
+        info = db.cursor.fetchall()
+        if len(info) == 0:
+            return "There is no movie with such id"
+
+        if not isinstance(movie_type, str) or not isinstance(day, str) or not isinstance(hour, str):
+            raise ValueError("Wrong input! ")
+        movie_id = info[0][0]
+        insert_projection = '''
+            INSERT INTO projections (movie_id, type, day, hour)
+            VALUES(?, ?, ?, ?);
+        '''
+        db.cursor.execute(insert_projection, (movie_id, movie_type, day, hour))
+        db.connection.commit()
+        db.connection.close()

@@ -19,7 +19,7 @@ CREATE_PROJECTIONS = f'''
     CREATE TABLE IF NOT EXISTS projections (
         id integer primary key AUTOINCREMENT,
         movie_id integer,
-        type varchar(10),
+        movie_type varchar(10),
         day varchar(50),
         hour varchar(50),
         FOREIGN KEY (movie_id) REFERENCES movies(id)

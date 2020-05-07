@@ -23,6 +23,10 @@ class Application:
         create_super_admin()
 
     @classmethod
+    def admin_view(cls):
+        super_admin_welcome()
+
+    @classmethod
     def update_info(cls):
         db = Database()
         db.cursor.execute(INSERT_MOVIES)
@@ -48,5 +52,7 @@ if __name__ == '__main__':
         Application.start()
     elif command == 'admin':
         Application.admin()
+    elif command == 'super':
+        Application.admin_view()
     else:
-        raise ValueError(f'Unknown command {command}. Valid ones are "build" and "start"')
+        raise ValueError(f'Unknown command {command}.')

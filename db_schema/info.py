@@ -6,7 +6,7 @@ INSERT_MOVIES = f'''
 '''
 
 INSERT_PROJECTIONS = f'''
-    INSERT INTO projections (movie_id, type, day, hour)
+    INSERT INTO projections (movie_id, movie_type, day, hour)
         VALUES(1, "3D", "2020-05-10", "20:00"),
         (1, "2D", "2020-05-10", "22:30"),
         (2, "3D", "2020-05-12", "18:10"),

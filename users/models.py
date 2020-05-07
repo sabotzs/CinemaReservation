@@ -104,10 +104,18 @@ class UserModel:
     def reserve_seats(self, user_id, projection_id, seats):
         self.gateway.reserve_seats(user_id, projection_id, seats)
 
-    def add_movie(self, name_of_the_movie, rating):
-        self.gateway.add_movie(
-            name_of_the_movie=name_of_the_movie, rating=rating)
+    @staticmethod
+    def add_movie(name_of_the_movie, rating):
+        gateway = UserGateway()
+        gateway.add_movie(name_of_the_movie=name_of_the_movie, rating=rating)
 
-    def delete_movie(self, name_of_the_movie):
-        self.gateway.delete_movie(
-            name_of_the_movie=name_of_the_movie)
+    @staticmethod
+    def delete_movie(name_of_the_movie):
+        gateway = UserGateway()
+        gateway.delete_movie(name_of_the_movie=name_of_the_movie)
+
+    @staticmethod
+    def add_projection(movie_id, movie_type, day, hour):
+        gateway = UserGateway()
+        gateway.add_projection(
+            movie_id=movie_id, movie_type=movie_type, day=day, hour=hour)

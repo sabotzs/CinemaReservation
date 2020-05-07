@@ -53,3 +53,5 @@ class UserController:
     def delete_movie(self, name_of_the_movie):
         self.model.delete_movie(name_of_the_movie)
 
+    def add_projecion(self, movie_id, movie_type, day, hour):
+        self.model.add_projection(movie_id, movie_type, day, hour)

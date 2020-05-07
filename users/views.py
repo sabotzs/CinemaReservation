@@ -81,3 +81,13 @@ class UserViews:
     def delete_movie(self):
         name_of_the_movie = input('Please, insert the  title of the movie: ')
         self.controller.delete_movie(name_of_the_movie)
+
+    def add_projection(self):
+        self.show_movies()
+        movie_id = input('Please, insert the id of the movie: ')
+        movie_id = int(movie_id)
+        print("Possible movie types  now - 2D, 3D, 4D")
+        movie_type = input('Please, insert the type of the movie:')
+        day = input('Choose a date: ')
+        hour = input('Choose a hour: ')
+        self.controller.add_projecion(movie_id, movie_type, day, hour)
