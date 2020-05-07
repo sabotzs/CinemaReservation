@@ -101,8 +101,10 @@ class UserModel:
         db.connection.close()
         return projection_info
 
-    def reserve_seats(self, user_id, projection_id, seats):
-        self.gateway.reserve_seats(user_id, projection_id, seats)
+    @staticmethod
+    def reserve_seats(user_id, projection_id, seats):
+        gateway = UserGateway()
+        gateway.reserve_seats(user_id, projection_id, seats)
 
     @staticmethod
     def show_user_reservations(user_id):
@@ -135,10 +137,10 @@ class UserModel:
                 WHERE id = ?;
         '''
         for r in reservations:
-            db.execute(select_reservation_query, (r, ))
+            db.cursor.execute(select_reservation_query, (r, ))
             u_id = db.cursor.fetchone()
             if u_id[0] == user_id:
-                db.execute(delete_reservation_query, (r, ))
+                db.cursor.execute(delete_reservation_query, (r, ))
             else:
                 print(f"You don't have a reservation {r}")
         db.connection.commit()

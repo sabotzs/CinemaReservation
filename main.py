@@ -38,8 +38,7 @@ class Application:
 
     @classmethod
     def start(cls):
-        # login()
-        welcome()
+        login()
 
 
 if __name__ == '__main__':

@@ -27,25 +27,42 @@ class UserGateway:
         db.connection.commit()
         db.connection.close()
 
+
+    def make_client(self, email):
+        db = Database()
+        select_client_query = '''
+            SELECT id
+                FROM users
+                WHERE email = ?;
+        '''
+        db.cursor.execute(select_client_query, (email,))
+        user_id = db.cursor.fetchone()
+        insert_client_query = '''
+            INSERT INTO clients
+                VALUES ( ? );
+        '''
+        db.cursor.execute(insert_client_query, user_id)
+        db.connection.commit()
+        db.connection.close()
+
+
     def login(self, *, email, password):
         # db = Database()
         fetched = self.email_exists(email)
         if fetched is None:
             raise ValueError('No account with such email!')
 
-        salted_password = password + fetched[3]
+        salted_password = password + fetched['salt']
         hashed_password = hashlib.sha256(salted_password.encode()).hexdigest()
 
-        if hashed_password == fetched[2]:
+        if hashed_password == fetched['password']:
             ######
             # return UserModel(user_id=fetched[0], email=email, password=hashed_password)
             return fetched
         else:
             return None
 
-
-    @staticmethod
-    def reserve_seats(user_id, projection_id, seats):
+    def reserve_seats(self, user_id, projection_id, seats):
         db = Database()
         insert_reservation_query = '''
             INSERT INTO reservations (user_id, projection_id, row, col)
@@ -65,8 +82,10 @@ class UserGateway:
     def email_exists(email):
         db = Database()
         check_unique_email_query = '''
-            SELECT id, email, password, salt
+            SELECT id, email, password, salt, work_position
                 FROM users
+                LEFT JOIN admins
+                    on users.id = admins.admin_id
                 WHERE email = ?;
         '''
         db.cursor.execute(check_unique_email_query, (email,))
@@ -80,16 +99,6 @@ class UserGateway:
         #     return info_by_email
         #     info_by_email = info_by_email[0]
         return info_by_email
-
-    # def log_super_admin(self, *, id_info):
-    #     db = Database()
-    #     insert_into_admins = f'''
-    #         INSERT INTO admins (admin_id, work_position)
-    #             VALUES(?, ?)
-    #     '''
-    #     db.cursor.execute(insert_into_admins, (id_info, "super admin"))
-    #     db.connection.commit()
-    #     db.connection.close()
 
     def log_super_admin(self, *, email):
         db = Database()
@@ -105,7 +114,7 @@ class UserGateway:
             INSERT INTO admins (admin_id, work_position)
                 VALUES(?, ?)
         '''
-        db.cursor.execute(insert_into_admins, (id_info, "super admin"))
+        db.cursor.execute(insert_into_admins, (id_info, "Admin"))
         db.connection.commit()
         db.connection.close()
 

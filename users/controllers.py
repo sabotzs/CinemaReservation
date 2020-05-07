@@ -11,11 +11,14 @@ class UserController:
         self.users_gateway.create(email=email, password=password)
         return self.login(email, password)
 
+    def make_client(self, email):
+        self.users_gateway.make_client(email)
+
     def login(self, email, password):
         fetched = self.users_gateway.login(email=email, password=password)
         if fetched is not None:
             user = UserModel(user_id=fetched['id'], email=email, password=fetched['password'])
-            return user
+            return user, fetched['work_position']
         else:
             raise ValueError('Invalid password!')
 

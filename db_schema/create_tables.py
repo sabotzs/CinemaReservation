@@ -40,14 +40,15 @@ CREATE_RESERVATIONS = f'''
 
 CREATE_CLIENTS = f'''
     CREATE TABLE IF NOT EXISTS clients (
-        id integer primary key AUTOINCREMENT,
-        bonus_code varchar(50) unique
+        user_id integer,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     );
 '''
 
 CREATE_ADMINS = f'''
     CREATE TABLE IF NOT EXISTS admins (
-        admin_id integer primary key AUTOINCREMENT,
-        work_position varchar(50) NOT NULL
+        admin_id integer,
+        work_position varchar(50) NOT NULL,
+        FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE CASCADE
     );
 '''
