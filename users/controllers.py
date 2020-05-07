@@ -62,3 +62,13 @@ class UserController:
 
     def add_projecion(self, movie_id, movie_type, day, hour):
         self.model.add_projection(movie_id, movie_type, day, hour)
+
+    def get_all_projections(self):
+        all_proj = self.modle.get_all_projections()
+        proj_dict = {}
+        for proj in all_proj:
+            if proj[0] in proj_dict.keys():
+                proj_dict[proj[0]].append(proj[1:])
+            else:
+                proj_dict[proj[0]] = [proj[1:]]
+        return proj_dict

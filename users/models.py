@@ -159,3 +159,19 @@ class UserModel:
         gateway = UserGateway()
         gateway.add_projection(
             movie_id=movie_id, movie_type=movie_type, day=day, hour=hour)
+
+    @staticmethod
+    def get_all_projections():
+        db = Database()
+        get_all_projections_query = '''
+            SELECT movies.name, projections.id, day, hour, movie_type, COUNT(reservations.id)
+                FROM projections
+                JOIN movies
+                    ON projections.movie_id = movies.id
+                LEFT JOIN reservations
+                    ON projections.id = reservations.projection_id
+                GROUP BY projections.id;
+        '''
+        db.cursor.execute(get_all_projections_query)
+        all_pr = db.cursor.fetchall()
+        return all_pr

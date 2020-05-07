@@ -101,3 +101,11 @@ class UserViews:
         day = input('Choose a date: ')
         hour = input('Choose a hour: ')
         self.controller.add_projecion(movie_id, movie_type, day, hour)
+
+    def delete_projections(self):
+        all_pr = self.controller.get_all_projections()
+        for title in all_pr.keys()
+            print(f'Projections for {title}:')
+            for pr in all_pr[title]:
+                print(f'ID: {pr[0]}, on {pr[1]} at {pr[2]} ({pr[3]}) Reservations: {pr[4]}')
+        projection_id = input('Select projection id: ')
