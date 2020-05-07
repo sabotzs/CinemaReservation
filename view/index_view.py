@@ -21,7 +21,7 @@ def welcome():
     if args[0] == 'e':
         pass
     if args[0] == 'h':
-        pass
+        print_help()
     if args[0] == 'l':
         login()
 
@@ -100,12 +100,24 @@ def login():
         return user_views.signin()
     raise ValueError(f'Unknown command {command}.')
 
+
 def cancel_reservation(user, user_views):
     if user is None:
         user = user_views.login()
     if user.email == email:
         user_views.show_user_reservations(user.id)
         user_views.cancel_reservation(user.id)
+
+
+def print_help():
+    help_message = f'Valid commands:\n' +\
+        f'- show_movies\n' +\
+        f'- show_projections <movie_id>\n' +\
+        f'- make_reservation (requires login)\n' +\
+        f'- cancel_reservation (requires login)\n' +\
+        f'- exit'
+    print(help_message)
+
 
 def create_super_admin():
     user_views = UserViews()
