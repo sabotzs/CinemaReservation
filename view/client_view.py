@@ -18,7 +18,7 @@ def run_client_view(user):
             1: user_views.show_movies,
             2: user_views.show_projections,
             3: user_views.make_reservation,
-            4: user_views.cancel_reservations
+            4: user_views.cancel_reservations,
             5: goodbye_command
         }
 
