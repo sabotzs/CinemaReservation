@@ -103,3 +103,11 @@ class UserModel:
 
     def reserve_seats(self, user_id, projection_id, seats):
         self.gateway.reserve_seats(user_id, projection_id, seats)
+
+    def add_movie(self, name_of_the_movie, rating):
+        self.gateway.add_movie(
+            name_of_the_movie=name_of_the_movie, rating=rating)
+
+    def delete_movie(self, name_of_the_movie):
+        self.gateway.delete_movie(
+            name_of_the_movie=name_of_the_movie)

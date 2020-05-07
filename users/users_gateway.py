@@ -106,3 +106,50 @@ class UserGateway:
         db.cursor.execute(insert_into_admins, (id_info, "super admin"))
         db.connection.commit()
         db.connection.close()
+
+    def add_movie(self, *, name_of_the_movie, rating):
+        db = Database()
+        search_for_existing_movie = '''
+            SELECT *
+                FROM movies
+                where name = ?;
+        '''
+        db.cursor.execute(search_for_existing_movie, (name_of_the_movie,))
+        info = db.cursor.fetchone()
+        if info is not None:
+            return "That movie already exists! "
+        insert_movie_query = '''
+            INSERT INTO movies (name, rating)
+                VALUES(? ,?);
+        '''
+        db.cursor.execute(insert_movie_query, (name_of_the_movie, rating))
+        db.connection.commit()
+        db.connection.close()
+
+    def remove_movie(self, *, name_of_the_movie):
+        dn = Database()
+        get_movie_query = '''
+            SELECT id
+                FROM movies
+                WHERE name = ?
+        '''
+        db.cursor.execute(get_movie_query, (name_of_the_movie,))
+        info = db.cursor.fetchone()
+        if info is None:
+            return "That movies doesn't belong to the DB"
+        movie_id = int(info[0][0])
+        delete_movie_query = '''
+            DELETE 
+            FROM movies
+            WHERE id = ?;
+        '''
+        db.cursor.execute(delete_movie_query, (movie_id,))
+        delete_projections_query = '''
+            DELETE
+            FROM projections
+            WHERE movie_id = ?;
+        '''
+        db.cursor.execute(delete_projections_query, (movie_id,))
+        db.connection.commit()
+        db.connection.close()
+        return "Successfully deleted!"

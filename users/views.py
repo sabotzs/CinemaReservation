@@ -66,6 +66,18 @@ class UserViews:
         password = input('Password for admin: ')
 
         user = self.controller.create_user(email=email, password=password)
-        self.controller.log_super_admin(email)
-        #
-        return user
+        if user is not None:
+            self.controller.log_super_admin(email)
+
+    ##########################################
+    ####### MIGHT BE IN ANOTHER FILE #########
+    ##########################################
+
+    def add_movie(self):
+        name_of_the_movie = input('Please, insert the title of the movie: ')
+        rating = input('Please, insert IMDB rating of the movie: ')
+        self.controller.add_movie(name_of_the_movie, rating)
+
+    def delete_movie(self):
+        name_of_the_movie = input('Please, insert the  title of the movie: ')
+        self.controller.delete_movie(name_of_the_movie)

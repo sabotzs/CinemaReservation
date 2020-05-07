@@ -46,3 +46,10 @@ class UserController:
 
     def log_super_admin(self, email):
         self.users_gateway.log_super_admin(email=email)
+
+    def add_movie(self, name_of_the_movie, rating):
+        self.model.add_movie(name_of_the_movie, rating)
+
+    def delete_movie(self, name_of_the_movie):
+        self.model.delete_movie(name_of_the_movie)
+
