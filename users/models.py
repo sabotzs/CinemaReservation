@@ -149,12 +149,13 @@ class UserModel:
     @staticmethod
     def add_movie(name_of_the_movie, rating):
         gateway = UserGateway()
-        gateway.add_movie(name_of_the_movie=name_of_the_movie, rating=rating)
+        mes = gateway.add_movie(name_of_the_movie=name_of_the_movie, rating=rating)
+        return mes
 
     @staticmethod
     def delete_movie(movie_id):
         gateway = UserGateway()
-        gateway.delete_movie(movie_id=movie_id)
+        return gateway.delete_movie(movie_id=movie_id)
 
     @staticmethod
     def add_projection(movie_id, movie_type, day, hour):

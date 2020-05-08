@@ -100,12 +100,6 @@ class UserGateway:
         info_by_email = db.cursor.fetchone()
         db.connection.commit()
         db.connection.close()
-        
-        # if len(info_by_email) == 0:
-        #     return None
-        # else:
-        #     return info_by_email
-        #     info_by_email = info_by_email[0]
         return info_by_email
 
     def log_super_admin(self, *, email):
@@ -136,7 +130,9 @@ class UserGateway:
         db.cursor.execute(search_for_existing_movie, (name_of_the_movie,))
         info = db.cursor.fetchone()
         if info is not None:
-            return "That movie already exists! "
+            return False
+        if not self.validate_movie_info(name_of_the_movie, rating):
+            return False
         insert_movie_query = '''
             INSERT INTO movies (name, rating)
                 VALUES(? ,?);
@@ -144,6 +140,11 @@ class UserGateway:
         db.cursor.execute(insert_movie_query, (name_of_the_movie, rating))
         db.connection.commit()
         db.connection.close()
+
+    def validate_movie_info(self, name, rating):
+        if not isinstance(name, str) or not isinstance(rating, float):
+            return False
+        return True
 
     def delete_movie(self, *, movie_id):
         db = Database()
@@ -155,7 +156,7 @@ class UserGateway:
         db.cursor.execute(get_movie_query, (movie_id,))
         info = db.cursor.fetchone()
         if info is None:
-            return "That movies doesn't belong to the DB"
+            return False
 
         delete_movie_query = '''
             DELETE

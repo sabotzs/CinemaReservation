@@ -69,10 +69,11 @@ class UserController:
         self.users_gateway.log_super_admin(email=email)
 
     def add_movie(self, name_of_the_movie, rating):
-        self.model.add_movie(name_of_the_movie, rating)
+        mes = self.model.add_movie(name_of_the_movie, rating)
+        return mes
 
     def delete_movie(self, movie_id):
-        self.model.delete_movie(movie_id)
+        return self.model.delete_movie(movie_id)
 
     def add_projecion(self, movie_id, movie_type, day, hour):
         self.model.add_projection(movie_id, movie_type, day, hour)

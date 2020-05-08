@@ -132,19 +132,19 @@ class UserViews:
         if user is not None:
             self.controller.log_super_admin(email)
 
-    ##########################################
-    ####### MIGHT BE IN ANOTHER FILE #########
-    ##########################################
-
     def add_movie(self):
         name_of_the_movie = input('Please, insert the title of the movie: ')
         rating = input('Please, insert IMDB rating of the movie: ')
-        self.controller.add_movie(name_of_the_movie, rating)
+        mes = self.controller.add_movie(name_of_the_movie, rating)
+        if not mes:
+            print(" \n ERROR! Incorect data or movie already exists! \n ")
 
     def delete_movie(self):
         self.show_movies()
         movie_id = input('Please, insert the id of the movie: ')
-        self.controller.delete_movie(movie_id)
+        mes = self.controller.delete_movie(movie_id)
+        if not mes:
+            print(" \n ERROR! No movies with such id! \n ")
 
     def add_projection(self):
         self.show_movies()
