@@ -140,6 +140,7 @@ class UserGateway:
         db.cursor.execute(insert_movie_query, (name_of_the_movie, rating))
         db.connection.commit()
         db.connection.close()
+        return True
 
     def validate_movie_info(self, name, rating):
         if not isinstance(name, str) or not isinstance(rating, float):
