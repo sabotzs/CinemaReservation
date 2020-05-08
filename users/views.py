@@ -43,16 +43,16 @@ class UserViews:
 
     def make_reservation(self, user_id):
         seats = self.get_input('Step 1 (User) Choose number of tickets: ')
-        
+
         self.show_movies()
         movie_id = self.get_input('Step 2 (Movie) Choose movie by id: ')
-        
+
         projections = self.controller.show_projections(movie_id)
         if projections is False:
             return
 
         self.print_projections(projections)
-        projection_id = self.get_input('Step 3 (Projection) Choose projection by id: ')  
+        projection_id = self.get_input('Step 3 (Projection) Choose projection by id: ')
         taken_seats = self.show_seats(seats, projection_id)
         # if there are enough seats for the projection
         if taken_seats is not None:
@@ -61,7 +61,7 @@ class UserViews:
             seats_info = 'Seats: '
             for seat in selected_seats:
                 seats_info = seats_info + str((seat)) + ' '
-        
+
         confirmation = input("Step 5 (Confirm - type 'finalize'): ")
         if confirmation == 'finalize':
             self.controller.reserve_seats(user_id, projection_id, selected_seats)
@@ -116,7 +116,7 @@ class UserViews:
     def show_user_reservations(self, user_id):
         user_reservations = self.controller.show_user_reservations(user_id)
         for r in user_reservations:
-            print(f"ID: {r['id']}, Seat ({r['row']},{r['col']}) for {r['name']} ({r['movie_type']}) on {r['day']} at {r['hour']} ")
+            print(f"ID: {r['id']}, Seat ({r['row']}, {r['col']}) for {r['name']} ({r['movie_type']}) on {r['day']} at {r['hour']} ")
 
     def cancel_reservations(self, user_id):
         self.show_user_reservations(user_id)
@@ -161,7 +161,6 @@ class UserViews:
         for pr in all_pr:
             print(pr['name'])
             print(f"ID: {pr['id']}, on {pr['day']} at {pr['hour']} ({pr['movie_type']}) Reservations: {pr['reserv_count']}")
-        
         projection_id = input('Select projection id: ')
         self.controller.delete_projection(projection_id)
 
@@ -172,10 +171,21 @@ class UserViews:
         self.controller.hire_employee(employee[0].id)
 
     def close_cinema(self):
-        permission = input("Please, input your password: ")
+        permission = input("Please, input your password for validation: ")
         close = self.controller.close_cinema(permission)
         if close is None:
-            print("Cinema was closed! ")
-            sys.exit()
+            sys.exit("Cinema was closed!")
         if not close:
             print("INVALID PASSWWORD! ")
+
+    def fire_employee(self):
+        email = input('Enter employee email: ')
+        permission = input("Please, input your password for validation: ")
+        fired = self.controller.fire_employee(
+            email=email, permission=permission)
+        if isinstance(fired, str):
+            return fired
+        if isinstance is False:
+            sys.exit("Wrong password! Access is denied! ")
+        else:
+            print("\n User with email ", email, "was fired! \n ")

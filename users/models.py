@@ -188,3 +188,9 @@ class UserModel:
         gateway = UserGateway()
         close = gateway.close_cinema(permission)
         return close
+
+    @staticmethod
+    def fire_employee(*, email, permission):
+        gateway = UserGateway()
+        fired = gateway.fire_employee(email=email, permission=permission)
+        return fired

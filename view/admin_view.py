@@ -1,6 +1,7 @@
 from users.views import UserViews
 import sys
 
+
 def run_admin_view(user):
     views = UserViews()
 
@@ -11,9 +12,10 @@ def run_admin_view(user):
             >>> "2" - Remove movie and all projections for it
             >>> "3" - Add projection for a movie
             >>> "4" - Remove projection for a movie
-            >>> "5" - Hire somebody
-            >>> "6" - Close the cinema
-            >>> "7" - Exit
+            >>> "5" - Hire employee
+            >>> "6" - Fire employee
+            >>> "7" - Close the cinema
+            >>> "8" - Exit
         '''
         command = input(options)
         command = int(command)
@@ -23,19 +25,21 @@ def run_admin_view(user):
             3: views.add_projection,
             4: views.delete_projection,
             5: views.hire_employee,
-            6: views.close_cinema,
-            7: goodbye_command
+            6: views.fire_employee,
+            7: views.close_cinema,
+            8: goodbye_command
         }
-        if command < 1 or command > 7:
+        if command < 1 or command > 8:
             print("Wrong command! :(")
-        else: 
+        else:
             f = options_dic.get(command)
             f()
+
 
 def goodbye_command():
     sys.exit("Goodbye! Have a nice day!")
 
+
 def create_super_admin():
     user_views = UserViews()
     user_views.log_super_admin()
-

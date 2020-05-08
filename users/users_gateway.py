@@ -256,3 +256,24 @@ class UserGateway:
         if hashed_password == fetched['password']:
             return True
         return False
+
+    def fire_employee(self, *, email, permission):
+        db = Database()
+        if not self.check_permsission(permission):
+            return False
+        find_user_query = '''
+            SELECT *
+                FROM users
+                WHERE email = ?;
+        '''
+        db.cursor.execute(find_user_query, (email,))
+        fetched = db.cursor.fetchone()
+        if fetched is None:
+            return "No such user! "
+        delete_user_query = '''
+            DELETE FROM users
+                WHERE email = ?;
+        '''
+        db.cursor.execute(delete_user_query, (email,))
+        db.connection.commit()
+        db.connection.close()

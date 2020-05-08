@@ -79,3 +79,7 @@ class UserController:
     def close_cinema(self, permission):
         close = self.model.close_cinema(permission)
         return close
+
+    def fire_employee(self, *, email, permission):
+        fired = self.model.fire_employee(email=email, permission=permission)
+        return fired
