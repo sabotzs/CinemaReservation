@@ -12,6 +12,8 @@ class UserGateway:
         #self.db = Database()
 
     def create(self, *, email, password):
+        if not self.validate_pass(password):
+            raise ValueError("Password must contain at least 1 Upper Letter and 1 digit")
         if not self.validate_email(email) or self.email_exists(email) is not None:
             raise ValueError("That user already exists!")
         db = Database()
@@ -27,6 +29,12 @@ class UserGateway:
         db.connection.commit()
         db.connection.close()
 
+    def validate_pass(self, password):
+        has_digit = any(char.isdigit() for char in password)
+        has_upper_letter = bool(re.search('([A-Z])', password))
+        if not has_digit or not has_upper_letter:
+            return False
+        return True
 
     def make_client(self, email):
         db = Database()
@@ -206,7 +214,7 @@ class UserGateway:
     def hire_employee(self, employee_id):
         db = Database()
         insert_employee_query = '''
-            INSERT INTO admins (admin_id, work_possition)
+            INSERT INTO admins (admin_id, work_position)
                 VALUES ( ? , ? )
         '''
         db.cursor.execute(insert_employee_query, (employee_id, 'Employee'))
