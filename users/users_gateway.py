@@ -1,7 +1,6 @@
 import hashlib
 from os import urandom
 from db_schema import Database
-# from .models import UserModel
 import re
 regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 
@@ -9,7 +8,6 @@ regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 class UserGateway:
     def __init__(self):
         pass
-        #self.db = Database()
 
     def create(self, *, email, password):
         if not self.validate_pass(password):
@@ -53,9 +51,7 @@ class UserGateway:
         db.connection.commit()
         db.connection.close()
 
-
     def login(self, *, email, password):
-        # db = Database()
         fetched = self.email_exists(email)
         if fetched is None:
             raise ValueError('No account with such email!')
@@ -64,8 +60,6 @@ class UserGateway:
         hashed_password = hashlib.sha256(salted_password.encode()).hexdigest()
 
         if hashed_password == fetched['password']:
-            ######
-            # return UserModel(user_id=fetched[0], email=email, password=hashed_password)
             return fetched
         else:
             return None
@@ -164,7 +158,6 @@ class UserGateway:
             WHERE id = ?;
         '''
         db.cursor.execute(delete_movie_query, (movie_id,))
-        
         db.connection.commit()
         db.connection.close()
         return "Successfully deleted!"

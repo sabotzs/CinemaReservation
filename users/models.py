@@ -1,7 +1,6 @@
 import re
 from db_schema import Database
 from .users_gateway import UserGateway
-# regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 
 
 class UserModel:
@@ -11,7 +10,6 @@ class UserModel:
         self.password = password
         self.gateway = UserGateway()
 
-    # to be class method
     def validate(self, email, password):
         if not self.gateway.validate(email):
             raise ValueError("Wrong email! ")
@@ -19,21 +17,6 @@ class UserModel:
             id_info = self.gateway.email_exists(email)
             if id_info is not None:
                 raise ValueError("Email already exists! ")
-        # TODO: validate password
-
-    # @staticmethod
-    # def email_exists(email):
-    #     db = Database()
-    #     check_unique_email_query = '''
-    #         SELECT id, email, password, salt
-    #             FROM users
-    #             WHERE email = ?;
-    #     '''
-    #     db.cursor.execute(check_unique_email_query, (email,))
-    #     fetched = db.cursor.fetchone()
-    #     db.connection.commit()
-    #     db.connection.close()
-    #     return fetched
 
     @staticmethod
     def show_movies():

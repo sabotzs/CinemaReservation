@@ -32,5 +32,6 @@ def run_client_view(user):
             f = options_dict.get(command)
             f()
 
+
 def goodbye_command():
     sys.exit("Goodbye! Have a nice day!")
