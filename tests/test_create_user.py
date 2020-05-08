@@ -1,5 +1,5 @@
 import unittest
-from users_gateway import create, validate_pass, validate_email
+from users.users_gateway import create, validate_pass, validate_email
 
 
 class TestCreateUser(unittest.TestCase):
