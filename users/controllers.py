@@ -38,14 +38,25 @@ class UserController:
         if number_seats > 100 - len(taken_seats):
             return None
         else:
-            return taken_seats
+            lst_tpls = []
+            for i in range(len(taken_seats)):
+                seat = (taken_seats[i]['row'], taken_seats[i]['col'])
+                lst_tpls.append(seat)
+            return lst_tpls
 
     def show_projection_info(self, projection_id):
         pr_info = self.model.get_projection_info(projection_id)
         return pr_info
 
-    def reserve_seats(self, user_id, projection_id, seats):
-        self.model.reserve_seats(user_id, projection_id, seats)
+    def reserve_seats(self, *args):
+        print("HERE")
+        if len(args) != 3:
+            return False
+        else:
+            user_id = args[0]
+            projection_id = args[1]
+            seats = args[2]
+            self.model.reserve_seats(user_id, projection_id, seats)
 
     def show_user_reservations(self, user_id):
         user_reservations = self.model.show_user_reservations(user_id)

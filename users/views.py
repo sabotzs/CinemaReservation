@@ -64,7 +64,7 @@ class UserViews:
 
         confirmation = input("Step 5 (Confirm - type 'finalize'): ")
         if confirmation == 'finalize':
-            self.controller.reserve_seats(user_id, projection_id, selected_seats)
+            self.finalize(user_id, projection_id, selected_seats)
 
     def get_input(self, msg):
         info = input(msg)
@@ -189,3 +189,23 @@ class UserViews:
             sys.exit("Wrong password! Access is denied! ")
         else:
             print("\n User with email ", email, "was fired! \n ")
+
+    def log_info(func):
+        def wrapper(*args):
+            func(*args)
+            for i in args:
+                user_id = args[1]
+                user_id_name = f"{user_id}" + "user" + "reservation"
+                projection_id = args[2]
+                seats = args[3]
+            with open(f'{user_id_name}.txt', 'a') as f:
+                f.write(f' *** NEW RESERVATION *** \n ')
+                f.write(f"ID of user: {user_id} \n")
+                f.write(f"ID of projections: {projection_id} \n")
+                for i in seats:
+                    f.write(f"{i} seat was added \n")
+        return wrapper
+
+    @log_info
+    def finalize(self, *args):
+        self.controller.reserve_seats(*args)

@@ -74,7 +74,7 @@ class UserModel:
         select_taken_seats = '''
             SELECT row, col
                 FROM projections
-                JOIN reservations
+                LEFT JOIN reservations
                     ON projections.id = reservations.projection_id
                 WHERE projections.id = ?
                 ORDER BY row, col;
