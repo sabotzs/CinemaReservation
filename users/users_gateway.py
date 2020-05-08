@@ -220,3 +220,39 @@ class UserGateway:
         db.cursor.execute(insert_employee_query, (employee_id, 'Employee'))
         db.connection.commit()
         db.connection.close()
+
+    def close_cinema(self, permission):
+        if not self.check_permsission(permission):
+            return False
+        db = Database()
+        delete_proj__query = '''
+            DELETE FROM projections
+            WHERE movie_id != ?;
+        '''
+        delete_movie_query = '''
+            DELETE FROM movies
+            WHERE id != ?;
+        '''
+        db.cursor.execute(delete_proj__query, (-1,))
+        db.cursor.execute(delete_movie_query, (-1,))
+        db.connection.commit()
+        db.connection.close()
+
+    def check_permsission(self, permission):
+        db = Database()
+        find_admin = '''
+            SELECT id, password, salt
+                FROM users
+                JOIN admins
+                    ON admins.admin_id = users.id
+                    WHERE admins.work_position = "Admin"
+        '''
+        db.cursor.execute(find_admin)
+        fetched = db.cursor.fetchone()
+        salted_password = permission + fetched['salt']
+        hashed_password = hashlib.sha256(salted_password.encode()).hexdigest()
+        db.connection.commit()
+        db.connection.close()
+        if hashed_password == fetched['password']:
+            return True
+        return False

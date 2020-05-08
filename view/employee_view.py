@@ -4,7 +4,7 @@ import sys
 
 def run_employee_view(user):
     views = UserViews()
-    
+
     while True:
         print('Hello! What would you like to do? ')
         options = f'''
@@ -23,9 +23,12 @@ def run_employee_view(user):
             4: views.delete_projection,
             5: goodbye_command
         }
-        ### more will be added
-        f = options_dic.get(command)
-        f()
+        if command < 1 or command > 5:
+            print("Wrong command! :(")
+        else:
+            f = options_dic.get(command)
+            f()
+
 
 def goodbye_command():
     sys.exit("Goodbye! Have a nice day!")

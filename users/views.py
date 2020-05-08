@@ -170,3 +170,12 @@ class UserViews:
         password = input('Enter employee password: ')
         employee = self.controller.create_user(email=email, password=password)
         self.controller.hire_employee(employee[0].id)
+
+    def close_cinema(self):
+        permission = input("Please, input your password: ")
+        close = self.controller.close_cinema(permission)
+        if close is None:
+            print("Cinema was closed! ")
+            sys.exit()
+        if not close:
+            print("INVALID PASSWWORD! ")

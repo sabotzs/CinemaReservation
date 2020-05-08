@@ -182,3 +182,9 @@ class UserModel:
     def delete_projection(projection_id):
         gateway = UserGateway()
         gateway.delete_projection(projection_id=projection_id)
+
+    @staticmethod
+    def close_cinema(permission):
+        gateway = UserGateway()
+        close = gateway.close_cinema(permission)
+        return close

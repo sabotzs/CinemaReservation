@@ -7,13 +7,14 @@ def run_client_view(user):
 
     while True:
         print('Hello! What would you like to do? ')
-        options = f'1. show movies\n' +\
-            f'2. show projections\n' +\
-            f'3. make reservation\n' +\
-            f'4. cancel reservation\n'
-        
+        options = f'''
+            >>> "1" - Show movies
+            >>> "2" - Show projections
+            >>> "3" - Make reservations
+            >>> "4" - Cancel reservations
+            >>> "5" - Exit
+        '''
         command = int(input(options))
-
         options_dict = {
             1: user_views.show_movies,
             2: user_views.show_projections,
@@ -25,7 +26,10 @@ def run_client_view(user):
         f = options_dict.get(command)
         if command == 3 or command == 4:
             f(user.id)
+        elif command < 1 or command > 5:
+            print("Wrong command! :(")
         else:
+            f = options_dict.get(command)
             f()
 
 def goodbye_command():

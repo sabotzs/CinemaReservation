@@ -23,11 +23,14 @@ def run_admin_view(user):
             3: views.add_projection,
             4: views.delete_projection,
             5: views.hire_employee,
+            6: views.close_cinema,
             7: goodbye_command
         }
-        ### more will be added
-        f = options_dic.get(command)
-        f()
+        if command < 1 or command > 7:
+            print("Wrong command! :(")
+        else: 
+            f = options_dic.get(command)
+            f()
 
 def goodbye_command():
     sys.exit("Goodbye! Have a nice day!")
@@ -35,3 +38,4 @@ def goodbye_command():
 def create_super_admin():
     user_views = UserViews()
     user_views.log_super_admin()
+

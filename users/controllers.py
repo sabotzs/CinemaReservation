@@ -75,3 +75,7 @@ class UserController:
 
     def hire_employee(self, employee_id):
         self.users_gateway.hire_employee(employee_id)
+
+    def close_cinema(self, permission):
+        close = self.model.close_cinema(permission)
+        return close
