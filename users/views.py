@@ -21,11 +21,6 @@ class UserViews:
         self.controller.make_client(email)
         return user
 
-    def show_movies(self):
-        movies = self.controller.show_movies()
-        for movie in movies:
-            print(f"[{movie['id']}] - {movie['name']} - ({movie['rating']})")
-
     def show_projections(self):
         movie_id = int(input('Select movie id: '))
         projections = self.controller.show_projections(movie_id)
@@ -131,20 +126,6 @@ class UserViews:
         user = self.controller.create_user(email=email, password=password)
         if user is not None:
             self.controller.log_super_admin(email)
-
-    def add_movie(self):
-        name_of_the_movie = input('Please, insert the title of the movie: ')
-        rating = float(input('Please, insert IMDB rating of the movie: '))
-        mes = self.controller.add_movie(name_of_the_movie, rating)
-        if not mes:
-            print(" \n ERROR! Incorect data or movie already exists! \n ")
-
-    def delete_movie(self):
-        self.show_movies()
-        movie_id = input('Please, insert the id of the movie: ')
-        mes = self.controller.delete_movie(movie_id)
-        if not mes:
-            print(" \n ERROR! No movies with such id! \n ")
 
     def add_projection(self):
         self.show_movies()

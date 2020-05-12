@@ -19,20 +19,6 @@ class UserModel:
                 raise ValueError("Email already exists! ")
 
     @staticmethod
-    def show_movies():
-        db = Database()
-        select_movies_query = '''
-            SELECT id, name, rating
-                FROM movies
-                ORDER BY rating;
-        '''
-        db.cursor.execute(select_movies_query)
-        movies = db.cursor.fetchall()
-        db.connection.commit()
-        db.connection.close()
-        return movies
-
-    @staticmethod
     def show_projections(movie_id):
         db = Database()
         select_projections_query = '''
@@ -128,17 +114,6 @@ class UserModel:
                 print(f"You don't have a reservation {r}")
         db.connection.commit()
         db.connection.close()
-
-    @staticmethod
-    def add_movie(name_of_the_movie, rating):
-        gateway = UserGateway()
-        mes = gateway.add_movie(name_of_the_movie=name_of_the_movie, rating=rating)
-        return mes
-
-    @staticmethod
-    def delete_movie(movie_id):
-        gateway = UserGateway()
-        return gateway.delete_movie(movie_id=movie_id)
 
     @staticmethod
     def add_projection(movie_id, movie_type, day, hour):
