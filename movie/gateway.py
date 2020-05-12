@@ -1,4 +1,9 @@
 from cinema_reservation.db_schema import Database
+from .queries import (
+    SELECT_ALL_MOVIES_QUERY,
+    SELECT_MOVIE_BY_TITLE_QUERY,
+    INSERT_MOVIE_QUERY
+)
 
 
 class MovieGateway:
@@ -7,12 +12,8 @@ class MovieGateway:
 
     def get_all_movies(self):
         db = Database()
-        select_all_movies_query = '''
-            SELECT id, name, rating
-                FROM movies
-                ORDER BY rating;
-        '''
-        db.cursor.execute(select_all_movies_query)
+
+        db.cursor.execute(SELECT_ALL_MOVIES_QUERY)
         movies_info = db.cursor.fetchall()
 
         db.connection.commit()
@@ -22,12 +23,8 @@ class MovieGateway:
 
     def check_movie_exists(self, title):
         db = Database()
-        select_movie_by_title_query = '''
-            SELECT id, name, rating
-                FROM movies
-                WHERE name = ?;
-        '''
-        db.cursor.execute(select_movie_by_title_query, (title,))
+
+        db.cursor.execute(SELECT_MOVIE_BY_TITLE_QUERY, (title,))
         movie_info = db.cursor.fetchone()
 
         db.connection.commit()
@@ -37,10 +34,8 @@ class MovieGateway:
 
     def add_movie(self, title, rating):
         db = Database()
-        insert_movie_query = '''
-            INSERT INTO movies (name, rating)
-                VALUES ( ? , ? );
-        '''
-        db.cursor.execute(insert_movie_query, (title, rating))
+
+        db.cursor.execute(INSERT_MOVIE_QUERY, (title, rating))
+
         db.connection.commit()
         db.connection.close()
