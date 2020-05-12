@@ -17,3 +17,7 @@ class MovieModel:
             for movie in movies_info
         ]
         return movies_list
+
+    @classmethod
+    def add_movie(cls, title, rating):
+        cls.gateway.add_movie(title, rating)

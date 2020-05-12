@@ -11,3 +11,9 @@ class MovieView:
         print('Current movies: ')
         for movie in movies:
             print(f'[{movie.id}] - {movie.name} ({movie.rating})')
+
+    def add_movie(self):
+        title = input('Enter movie title: ')
+        rating = input('Enter movie rating: ')
+
+        self.controller.add_movie(title, rating)
