@@ -1,9 +1,11 @@
 from users.views import UserViews
+from cinema_reservation.movie import MovieView
 import sys
 
 
 def run_client_view(user):
     user_views = UserViews()
+    movie_view = MovieView()
 
     while True:
         print('Hello! What would you like to do? ')
@@ -16,7 +18,7 @@ def run_client_view(user):
         '''
         command = int(input(options))
         options_dict = {
-            1: user_views.show_movies,
+            1: movie_view.show_movies,
             2: user_views.show_projections,
             3: user_views.make_reservation,
             4: user_views.cancel_reservations,
