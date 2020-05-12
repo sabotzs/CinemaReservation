@@ -10,4 +10,8 @@ class MovieController:
         return movies
 
     def add_movie(self, title, rating):
-        self.model.add_movie(title, rating)
+        movie = self.model.check_movie_exists(title)
+
+        if movie is None:
+            self.model.add_movie(title, rating)
+        return movie

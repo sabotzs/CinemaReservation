@@ -16,4 +16,9 @@ class MovieView:
         title = input('Enter movie title: ')
         rating = input('Enter movie rating: ')
 
-        self.controller.add_movie(title, rating)
+        movie = self.controller.add_movie(title, rating)
+
+        if movie is None:
+            print(f'Added {title} with rating {rating} successfully')
+        else:
+            print(f'Already exists:\n [{movie.id}] - {movie.title} ({movie.rating})')

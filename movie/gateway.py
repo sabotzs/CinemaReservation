@@ -20,6 +20,21 @@ class MovieGateway:
 
         return movies_info
 
+    def check_movie_exists(self, title):
+        db = Database()
+        select_movie_by_title_query = '''
+            SELECT id, name, rating
+                FROM movies
+                WHERE name = ?;
+        '''
+        db.cursor.execute(select_movie_by_title_query, (title,))
+        movie_info = db.cursor.fetchone()
+
+        db.connection.commit()
+        db.connection.close()
+
+        return movie_info
+
     def add_movie(self, title, rating):
         db = Database()
         insert_movie_query = '''
