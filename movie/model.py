@@ -28,3 +28,7 @@ class MovieModel:
     @classmethod
     def add_movie(cls, title, rating):
         cls.gateway.add_movie(title, rating)
+
+    @classmethod
+    def delete_movie(cls, movie_id):
+        cls.gateway.delete_movie(movie_id)

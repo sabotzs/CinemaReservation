@@ -15,3 +15,10 @@ class MovieController:
         if movie is None:
             self.model.add_movie(title, rating)
         return movie
+
+    def delete_movie(self, movie_id):
+        movie = self.model.check_movie_exists(movie_id=movie_id)
+
+        if movie is not None:
+            self.model.delete_movie(movie_id)
+        return movie

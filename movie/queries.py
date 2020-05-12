@@ -20,3 +20,8 @@ INSERT_MOVIE_QUERY = '''
     INSERT INTO movies (name, rating)
         VALUES ( ? , ? );
 '''
+
+DELETE_MOVIE_QUERY = '''
+    DELETE FROM movies
+        WHERE id = ?;
+'''

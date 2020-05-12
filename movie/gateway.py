@@ -3,7 +3,8 @@ from .queries import (
     SELECT_ALL_MOVIES_QUERY,
     SELECT_MOVIE_BY_ID_QUERY,
     SELECT_MOVIE_BY_TITLE_QUERY,
-    INSERT_MOVIE_QUERY
+    INSERT_MOVIE_QUERY,
+    DELETE_MOVIE_QUERY
 )
 
 
@@ -22,7 +23,7 @@ class MovieGateway:
 
         return movies_info
 
-    def check_movie_exists(self, *, movie_id, title):
+    def check_movie_exists(self, movie_id, title):
         db = Database()
 
         if movie_id is not None:
@@ -41,6 +42,14 @@ class MovieGateway:
         db = Database()
 
         db.cursor.execute(INSERT_MOVIE_QUERY, (title, rating))
+
+        db.connection.commit()
+        db.connection.close()
+
+    def delete_movie(self, movie_id):
+        db = Database()
+
+        db.cursor.execute(DELETE_MOVIE_QUERY, (movie_id,))
 
         db.connection.commit()
         db.connection.close()
