@@ -1,6 +1,7 @@
 from cinema_reservation.db_schema import Database
 from .queries import (
     SELECT_ALL_MOVIES_QUERY,
+    SELECT_MOVIE_BY_ID_QUERY,
     SELECT_MOVIE_BY_TITLE_QUERY,
     INSERT_MOVIE_QUERY
 )
@@ -21,10 +22,14 @@ class MovieGateway:
 
         return movies_info
 
-    def check_movie_exists(self, title):
+    def check_movie_exists(self, *, movie_id, title):
         db = Database()
 
-        db.cursor.execute(SELECT_MOVIE_BY_TITLE_QUERY, (title,))
+        if movie_id is not None:
+            db.cursor.execute(SELECT_MOVIE_BY_ID_QUERY, (movie_id,))
+        elif title is not None:
+            db.cursor.execute(SELECT_MOVIE_BY_TITLE_QUERY, (title,))
+
         movie_info = db.cursor.fetchone()
 
         db.connection.commit()

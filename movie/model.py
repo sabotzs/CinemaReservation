@@ -19,8 +19,8 @@ class MovieModel:
         return movies_list
 
     @classmethod
-    def check_movie_exists(cls, title):
-        movie_info = cls.gateway.check_movie_exists(title)
+    def check_movie_exists(cls, *, movie_id=None, title=None):
+        movie_info = cls.gateway.check_movie_exists(movie_id, title)
         if movie_info is None:
             return None
         return cls(movie_info['id'], movie_info['name'], movie_info['rating'])

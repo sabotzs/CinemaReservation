@@ -4,6 +4,12 @@ SELECT_ALL_MOVIES_QUERY = '''
         ORDER BY rating;
 '''
 
+SELECT_MOVIE_BY_ID_QUERY = '''
+    SELECT id, name, rating
+        FROM movies
+        WHERE id = ?;
+'''
+
 SELECT_MOVIE_BY_TITLE_QUERY = '''
     SELECT id, name, rating
         FROM movies
