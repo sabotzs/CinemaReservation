@@ -114,97 +114,97 @@ class UserGateway:
         db.connection.commit()
         db.connection.close()
 
-    def add_movie(self, *, name_of_the_movie, rating):
-        db = Database()
-        search_for_existing_movie = '''
-            SELECT *
-                FROM movies
-                where name = ?;
-        '''
-        db.cursor.execute(search_for_existing_movie, (name_of_the_movie,))
-        info = db.cursor.fetchone()
-        if info is not None:
-            return False
-        if not self.validate_movie_info(name_of_the_movie, rating):
-            return False
-        insert_movie_query = '''
-            INSERT INTO movies (name, rating)
-                VALUES(? ,?);
-        '''
-        db.cursor.execute(insert_movie_query, (name_of_the_movie, rating))
-        db.connection.commit()
-        db.connection.close()
-        return True
+    # def add_movie(self, *, name_of_the_movie, rating):
+    #     db = Database()
+    #     search_for_existing_movie = '''
+    #         SELECT *
+    #             FROM movies
+    #             where name = ?;
+    #     '''
+    #     db.cursor.execute(search_for_existing_movie, (name_of_the_movie,))
+    #     info = db.cursor.fetchone()
+    #     if info is not None:
+    #         return False
+    #     if not self.validate_movie_info(name_of_the_movie, rating):
+    #         return False
+    #     insert_movie_query = '''
+    #         INSERT INTO movies (name, rating)
+    #             VALUES(? ,?);
+    #     '''
+    #     db.cursor.execute(insert_movie_query, (name_of_the_movie, rating))
+    #     db.connection.commit()
+    #     db.connection.close()
+    #     return True
 
-    def validate_movie_info(self, name, rating):
-        if not isinstance(name, str) or not isinstance(rating, float):
-            return False
-        return True
+    # def validate_movie_info(self, name, rating):
+    #     if not isinstance(name, str) or not isinstance(rating, float):
+    #         return False
+    #     return True
 
-    def delete_movie(self, *, movie_id):
-        db = Database()
-        get_movie_query = '''
-            SELECT id
-                FROM movies
-                WHERE id = ?
-        '''
-        db.cursor.execute(get_movie_query, (movie_id,))
-        info = db.cursor.fetchone()
-        if info is None:
-            return False
+    # def delete_movie(self, *, movie_id):
+    #     db = Database()
+    #     get_movie_query = '''
+    #         SELECT id
+    #             FROM movies
+    #             WHERE id = ?
+    #     '''
+    #     db.cursor.execute(get_movie_query, (movie_id,))
+    #     info = db.cursor.fetchone()
+    #     if info is None:
+    #         return False
 
-        delete_movie_query = '''
-            DELETE
-            FROM movies
-            WHERE id = ?;
-        '''
-        db.cursor.execute(delete_movie_query, (movie_id,))
-        db.connection.commit()
-        db.connection.close()
-        return "Successfully deleted!"
+    #     delete_movie_query = '''
+    #         DELETE
+    #         FROM movies
+    #         WHERE id = ?;
+    #     '''
+    #     db.cursor.execute(delete_movie_query, (movie_id,))
+    #     db.connection.commit()
+    #     db.connection.close()
+    #     return "Successfully deleted!"
 
-    def add_projection(self, *, movie_id, movie_type, day, hour):
-        db = Database()
-        check_movie_id_exists = '''
-            SELECT id
-            FROM movies
-            WHERE id = ?;
-        '''
-        db.cursor.execute(check_movie_id_exists, (movie_id,))
-        info = db.cursor.fetchall()
-        if len(info) == 0:
-            return "There is no movie with such id"
+    # def add_projection(self, *, movie_id, movie_type, day, hour):
+    #     db = Database()
+    #     check_movie_id_exists = '''
+    #         SELECT id
+    #         FROM movies
+    #         WHERE id = ?;
+    #     '''
+    #     db.cursor.execute(check_movie_id_exists, (movie_id,))
+    #     info = db.cursor.fetchall()
+    #     if len(info) == 0:
+    #         return "There is no movie with such id"
 
-        if not isinstance(movie_type, str) or not isinstance(day, str) or not isinstance(hour, str):
-            raise ValueError("Wrong input! ")
-        movie_id = info[0][0]
-        insert_projection = '''
-            INSERT INTO projections (movie_id, movie_type, day, hour)
-            VALUES(?, ?, ?, ?);
-        '''
-        db.cursor.execute(insert_projection, (movie_id, movie_type, day, hour))
-        db.connection.commit()
-        db.connection.close()
+    #     if not isinstance(movie_type, str) or not isinstance(day, str) or not isinstance(hour, str):
+    #         raise ValueError("Wrong input! ")
+    #     movie_id = info[0][0]
+    #     insert_projection = '''
+    #         INSERT INTO projections (movie_id, movie_type, day, hour)
+    #         VALUES(?, ?, ?, ?);
+    #     '''
+    #     db.cursor.execute(insert_projection, (movie_id, movie_type, day, hour))
+    #     db.connection.commit()
+    #     db.connection.close()
 
-    def delete_projection(self, *, projection_id):
-        db = Database()
-        check_projection_id_exists = '''
-            SELECT id
-                FROM projections
-                WHERE id = ?;
-        '''
-        db.cursor.execute(check_projection_id_exists, (projection_id,))
-        info = db.cursor.fetchone()
-        if info is None:
-            return "No projection with such id!"
+    # def delete_projection(self, *, projection_id):
+    #     db = Database()
+    #     check_projection_id_exists = '''
+    #         SELECT id
+    #             FROM projections
+    #             WHERE id = ?;
+    #     '''
+    #     db.cursor.execute(check_projection_id_exists, (projection_id,))
+    #     info = db.cursor.fetchone()
+    #     if info is None:
+    #         return "No projection with such id!"
 
-        delete_projection_query = '''
-            DELETE FROM projections
-                WHERE id = ?;
-        '''
-        db.cursor.execute(delete_projection_query, (projection_id,))
-        db.connection.commit()
-        db.connection.close()
+    #     delete_projection_query = '''
+    #         DELETE FROM projections
+    #             WHERE id = ?;
+    #     '''
+    #     db.cursor.execute(delete_projection_query, (projection_id,))
+    #     db.connection.commit()
+    #     db.connection.close()
 
     def hire_employee(self, employee_id):
         db = Database()

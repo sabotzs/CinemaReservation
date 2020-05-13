@@ -22,9 +22,9 @@ class UserController:
         else:
             raise ValueError('Invalid password!')
 
-    def show_movies(self):
-        movies = self.model.show_movies()
-        return movies
+    # def show_movies(self):
+    #     movies = self.model.show_movies()
+    #     return movies
 
     # def show_projections(self, movie_id):
     #     projections = self.model.show_projections(movie_id)
@@ -68,12 +68,12 @@ class UserController:
     def log_super_admin(self, email):
         self.users_gateway.log_super_admin(email=email)
 
-    def add_movie(self, name_of_the_movie, rating):
-        mes = self.model.add_movie(name_of_the_movie, rating)
-        return mes
+    # def add_movie(self, name_of_the_movie, rating):
+    #     mes = self.model.add_movie(name_of_the_movie, rating)
+    #     return mes
 
-    def delete_movie(self, movie_id):
-        return self.model.delete_movie(movie_id)
+    # def delete_movie(self, movie_id):
+    #     return self.model.delete_movie(movie_id)
 
     # def add_projecion(self, movie_id, movie_type, day, hour):
     #     self.model.add_projection(movie_id, movie_type, day, hour)
