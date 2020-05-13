@@ -1,0 +1,4 @@
+ *** NEW RESERVATION *** 
+ ID of user: 3 
+ID of projections: 2 
+(2, 2) seat was added 
