@@ -1,9 +1,11 @@
 from users.views import UserViews
+from projections.projections_view import ProjectionsView
 import sys
 
 
 def run_admin_view(user):
     views = UserViews()
+    proj_view = ProjectionsView()
 
     while True:
         print('Hello! What would you like to do? ')
@@ -22,8 +24,8 @@ def run_admin_view(user):
         options_dic = {
             1: views.add_movie,
             2: views.delete_movie,
-            3: views.add_projection,
-            4: views.delete_projection,
+            3: proj_view.add_projection,
+            4: proj_view.delete_projection,
             5: views.hire_employee,
             6: views.fire_employee,
             7: views.close_cinema,

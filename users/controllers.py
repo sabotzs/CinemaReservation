@@ -26,12 +26,12 @@ class UserController:
         movies = self.model.show_movies()
         return movies
 
-    def show_projections(self, movie_id):
-        projections = self.model.show_projections(movie_id)
-        if len(projections) == 0:
-            return False
-        else:
-            return projections
+    # def show_projections(self, movie_id):
+    #     projections = self.model.show_projections(movie_id)
+    #     if len(projections) == 0:
+    #         return False
+    #     else:
+    #         return projections
 
     def show_seats(self, number_seats, projection_id):
         taken_seats = self.model.get_seats(projection_id)
@@ -44,9 +44,9 @@ class UserController:
                 lst_tpls.append(seat)
             return lst_tpls
 
-    def show_projection_info(self, projection_id):
-        pr_info = self.model.get_projection_info(projection_id)
-        return pr_info
+    # def show_projection_info(self, projection_id):
+    #     pr_info = self.model.get_projection_info(projection_id)
+    #     return pr_info
 
     def reserve_seats(self, *args):
         print("HERE")
@@ -75,15 +75,15 @@ class UserController:
     def delete_movie(self, movie_id):
         return self.model.delete_movie(movie_id)
 
-    def add_projecion(self, movie_id, movie_type, day, hour):
-        self.model.add_projection(movie_id, movie_type, day, hour)
+    # def add_projecion(self, movie_id, movie_type, day, hour):
+    #     self.model.add_projection(movie_id, movie_type, day, hour)
 
-    def get_all_projections(self):
-        all_proj = self.model.get_all_projections()
-        return all_proj
+    # def get_all_projections(self):
+    #     all_proj = self.model.get_all_projections()
+    #     return all_proj
 
-    def delete_projection(self, projection_id):
-        self.model.delete_projection(projection_id)
+    # def delete_projection(self, projection_id):
+    #     self.model.delete_projection(projection_id)
 
     def hire_employee(self, employee_id):
         self.users_gateway.hire_employee(employee_id)

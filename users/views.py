@@ -26,20 +26,20 @@ class UserViews:
         for movie in movies:
             print(f"[{movie['id']}] - {movie['name']} - ({movie['rating']})")
 
-    def show_projections(self):
-        movie_id = int(input('Select movie id: '))
-        projections = self.controller.show_projections(movie_id)
-        if projections is False:
-            print('No projections for that movie!')
-            return False
-        else:
-            self.print_projections(projections)
-            return True
+    # def show_projections(self):
+    #     movie_id = int(input('Select movie id: '))
+    #     projections = self.controller.show_projections(movie_id)
+    #     if projections is False:
+    #         print('No projections for that movie!')
+    #         return False
+    #     else:
+    #         self.print_projections(projections)
+    #         return True
 
-    def print_projections(self, projections):
-        print(f"Projections for movie {projections[0]['name']}:")
-        for proj in projections:
-            print(f"[{proj['id']}] - {proj['day']} {proj['hour']} ({proj['movie_type']}), {100 - proj['reserv_count']}")
+    # def print_projections(self, projections):
+    #     print(f"Projections for movie {projections[0]['name']}:")
+    #     for proj in projections:
+    #         print(f"[{proj['id']}] - {proj['day']} {proj['hour']} ({proj['movie_type']}), {100 - proj['reserv_count']}")
 
     def make_reservation(self, user_id):
         seats = self.get_input('Step 1 (User) Choose number of tickets: ')
@@ -54,7 +54,6 @@ class UserViews:
         self.print_projections(projections)
         projection_id = self.get_input('Step 3 (Projection) Choose projection by id: ')
         taken_seats = self.show_seats(seats, projection_id)
-        # if there are enough seats for the projection
         if taken_seats is not None:
             selected_seats = self.select_seats(seats, taken_seats)
             self.show_projection_info(projection_id)
@@ -107,11 +106,11 @@ class UserViews:
                     selected_seats.append((row, col))
         return selected_seats
 
-    def show_projection_info(self, projection_id):
-        pr_info = self.controller.show_projection_info(projection_id)
-        info = f"Movie: {pr_info['name']} ({pr_info['rating']})\n" +\
-            f"Date and Time: {pr_info['day']} {pr_info['hour']} ({pr_info['movie_type']})"
-        print(info)
+    # def show_projection_info(self, projection_id):
+    #     pr_info = self.controller.show_projection_info(projection_id)
+    #     info = f"Movie: {pr_info['name']} ({pr_info['rating']})\n" +\
+    #         f"Date and Time: {pr_info['day']} {pr_info['hour']} ({pr_info['movie_type']})"
+    #     print(info)
 
     def show_user_reservations(self, user_id):
         user_reservations = self.controller.show_user_reservations(user_id)

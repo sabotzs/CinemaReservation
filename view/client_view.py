@@ -1,9 +1,11 @@
 from users.views import UserViews
+from projections.projections_view import ProjectionsView
 import sys
 
 
 def run_client_view(user):
     user_views = UserViews()
+    proj_view = ProjectionsView()
 
     while True:
         print('Hello! What would you like to do? ')
@@ -17,7 +19,7 @@ def run_client_view(user):
         command = int(input(options))
         options_dict = {
             1: user_views.show_movies,
-            2: user_views.show_projections,
+            2: proj_view.show_projections,
             3: user_views.make_reservation,
             4: user_views.cancel_reservations,
             5: goodbye_command

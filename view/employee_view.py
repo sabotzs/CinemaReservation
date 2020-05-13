@@ -1,9 +1,11 @@
 from users.views import UserViews
+from projections.projections_view import ProjectionsView
 import sys
 
 
 def run_employee_view(user):
     views = UserViews()
+    proj_view = ProjectionsView()
 
     while True:
         print('Hello! What would you like to do? ')
