@@ -21,10 +21,10 @@ class UserViews:
         self.controller.make_client(email)
         return user
 
-    def show_movies(self):
-        movies = self.controller.show_movies()
-        for movie in movies:
-            print(f"[{movie['id']}] - {movie['name']} - ({movie['rating']})")
+    # def show_movies(self):
+    #     movies = self.controller.show_movies()
+    #     for movie in movies:
+    #         print(f"[{movie['id']}] - {movie['name']} - ({movie['rating']})")
 
     # def show_projections(self):
     #     movie_id = int(input('Select movie id: '))
@@ -131,37 +131,37 @@ class UserViews:
         if user is not None:
             self.controller.log_super_admin(email)
 
-    def add_movie(self):
-        name_of_the_movie = input('Please, insert the title of the movie: ')
-        rating = float(input('Please, insert IMDB rating of the movie: '))
-        mes = self.controller.add_movie(name_of_the_movie, rating)
-        if not mes:
-            print(" \n ERROR! Incorect data or movie already exists! \n ")
+    # def add_movie(self):
+    #     name_of_the_movie = input('Please, insert the title of the movie: ')
+    #     rating = float(input('Please, insert IMDB rating of the movie: '))
+    #     mes = self.controller.add_movie(name_of_the_movie, rating)
+    #     if not mes:
+    #         print(" \n ERROR! Incorect data or movie already exists! \n ")
 
-    def delete_movie(self):
-        self.show_movies()
-        movie_id = input('Please, insert the id of the movie: ')
-        mes = self.controller.delete_movie(movie_id)
-        if not mes:
-            print(" \n ERROR! No movies with such id! \n ")
+    # def delete_movie(self):
+    #     self.show_movies()
+    #     movie_id = input('Please, insert the id of the movie: ')
+    #     mes = self.controller.delete_movie(movie_id)
+    #     if not mes:
+    #         print(" \n ERROR! No movies with such id! \n ")
 
-    def add_projection(self):
-        self.show_movies()
-        movie_id = input('Please, insert the id of the movie: ')
-        movie_id = int(movie_id)
-        print("Possible movie types  now - 2D, 3D, 4D")
-        movie_type = input('Please, insert the type of the movie:')
-        day = input('Choose a date: ')
-        hour = input('Choose a hour: ')
-        self.controller.add_projecion(movie_id, movie_type, day, hour)
+    # def add_projection(self):
+    #     self.show_movies()
+    #     movie_id = input('Please, insert the id of the movie: ')
+    #     movie_id = int(movie_id)
+    #     print("Possible movie types  now - 2D, 3D, 4D")
+    #     movie_type = input('Please, insert the type of the movie:')
+    #     day = input('Choose a date: ')
+    #     hour = input('Choose a hour: ')
+    #     self.controller.add_projecion(movie_id, movie_type, day, hour)
 
-    def delete_projection(self):
-        all_pr = self.controller.get_all_projections()
-        for pr in all_pr:
-            print(pr['name'])
-            print(f"ID: {pr['id']}, on {pr['day']} at {pr['hour']} ({pr['movie_type']}) Reservations: {pr['reserv_count']}")
-        projection_id = input('Select projection id: ')
-        self.controller.delete_projection(projection_id)
+    # def delete_projection(self):
+    #     all_pr = self.controller.get_all_projections()
+    #     for pr in all_pr:
+    #         print(pr['name'])
+    #         print(f"ID: {pr['id']}, on {pr['day']} at {pr['hour']} ({pr['movie_type']}) Reservations: {pr['reserv_count']}")
+    #     projection_id = input('Select projection id: ')
+    #     self.controller.delete_projection(projection_id)
 
     def hire_employee(self):
         email = input('Enter employee email: ')

@@ -1,11 +1,13 @@
 from users.views import UserViews
 from projections.projections_view import ProjectionsView
+from movies.movies_view import MoviesView
 import sys
 
 
 def run_employee_view(user):
     views = UserViews()
     proj_view = ProjectionsView()
+    movies_view = MoviesView()
 
     while True:
         print('Hello! What would you like to do? ')
@@ -19,8 +21,8 @@ def run_employee_view(user):
         command = input(options)
         command = int(command)
         options_dic = {
-            1: views.add_movie,
-            2: views.delete_movie,
+            1: movies_view.add_movie,
+            2: movies_view.delete_movie,
             3: views.add_projection,
             4: views.delete_projection,
             5: goodbye_command
