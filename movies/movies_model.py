@@ -1,5 +1,5 @@
 from .movies_gateway import MoviesGateway
-from db_schema import Database
+# from db_schema import Database
 from .queries import SELECT_ALL_MOVIES_QUERY
 
 

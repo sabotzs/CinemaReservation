@@ -2,6 +2,7 @@ from users.views import UserViews
 from .admin_view import run_admin_view
 from .employee_view import run_employee_view
 from .client_view import run_client_view
+from users import Clients, Admins
 
 
 def login():
@@ -15,9 +16,9 @@ def login():
     else:
         raise ValueError(f'Unknown command {command}.')
 
-    if user[1] is None:
+    if isinstance(user, Client):
         run_client_view(user[0])
-    elif user[1] == 'Admin':
+    elif user.work_possition == "Admin":
         run_admin_view(user[0])
-    elif user[1] == 'Employee':
+    elif user.work_possition == "Employee":
         run_employee_view(user[0])

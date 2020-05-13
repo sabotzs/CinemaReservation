@@ -1,4 +1,4 @@
-from db_schema import Database
+# from db_schema import Database
 from .queries import (
     SELECT_ALL_MOVIES_QUERY,
     SELECT_MOVIE_BY_TITLE_QUERY,

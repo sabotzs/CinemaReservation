@@ -1,62 +1,33 @@
-import re
-from db_schema import Database
-from .users_gateway import UserGateway
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String
+from sqlalchemy import create_engine
+from sqlalchemy import ForeignKey
 
 
-class UserModel:
-    def __init__(self, *, user_id, email, password):
-        self.id = user_id
-        self.email = email
-        self.password = password
-        self.gateway = UserGateway()
+Base = declarative_base()
 
-    def validate(self, email, password):
-        if not self.gateway.validate(email):
-            raise ValueError("Wrong email! ")
-        else:
-            id_info = self.gateway.email_exists(email)
-            if id_info is not None:
-                raise ValueError("Email already exists! ")
 
-    @staticmethod
-    def show_movies():
-        db = Database()
-        select_movies_query = '''
-            SELECT id, name, rating
-                FROM movies
-                ORDER BY rating;
-        '''
-        db.cursor.execute(select_movies_query)
-        movies = db.cursor.fetchall()
-        db.connection.commit()
-        db.connection.close()
-        return movies
+class Users(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    email = Column(String, unique=True)
+    password = Column(String)
+    salt = Column(String)
 
-    @staticmethod
-    def get_seats(projection_id):
-        db = Database()
-        select_taken_seats = '''
-            SELECT row, col
-                FROM projections
-                LEFT JOIN reservations
-                    ON projections.id = reservations.projection_id
-                WHERE projections.id = ?
-                ORDER BY row, col;
-        '''
-        db.cursor.execute(select_taken_seats, (projection_id,))
-        taken_seats = db.cursor.fetchall()
-        db.connection.commit()
-        db.connection.close()
-        return taken_seats
 
-    @staticmethod
-    def close_cinema(permission):
-        gateway = UserGateway()
-        close = gateway.close_cinema(permission)
-        return close
+class Admins(Users):
+    __tablename__ = "admins"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey(Users.id, ondelete="cascade"))
+    work_position = Column(String(20), nullable=False)
 
-    @staticmethod
-    def fire_employee(*, email, permission):
-        gateway = UserGateway()
-        fired = gateway.fire_employee(email=email, permission=permission)
-        return fired
+
+class Clients(Users):
+    __tablename__ = "clients"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey(Users.id, ondelete="cascade"))
+
+
+def create_users():
+    engine = create_engine("sqlite:///cinema.db")
+    Base.metadata.create_all(engine)

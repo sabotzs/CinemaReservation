@@ -1,4 +1,4 @@
-from db_schema import Database
+# from db_schema import Database
 from .projections_gateway import ProjectionsGateway
 from .queries import (
     SELECT_PROJECTIONS,

@@ -1,4 +1,4 @@
-from db_schema import Database
+# from db_schema import Database
 from .queries import (
     CHECH_MOVIE_EXISTS_BY_ID,
     INSERT_PROJECTION,

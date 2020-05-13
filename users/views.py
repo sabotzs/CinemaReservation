@@ -16,10 +16,9 @@ class UserViews:
     def signin(self):
         email = input('Email: ')
         password = input('Password: ')
-
-        user = self.controller.create_user(email=email, password=password)
-        self.controller.make_client(email)
-        return user
+        self.controller.create_user(email=email, password=password)
+        client = self.controller.make_client(email)
+        return client
 
     def log_super_admin(self):
         email = input('Email for admin: ')
