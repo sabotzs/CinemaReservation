@@ -1,11 +1,13 @@
 from users.views import UserViews
 from projections.projections_view import ProjectionsView
 from movies.movies_view import MoviesView
+from reservations.reservations_view import ReservationsView
 import sys
 
 
 def run_admin_view(user):
     views = UserViews()
+    res_view = ReservationsView()
     proj_view = ProjectionsView()
     movies_view = MoviesView()
 

@@ -22,17 +22,6 @@ class UserController:
         else:
             raise ValueError('Invalid password!')
 
-    # def show_movies(self):
-    #     movies = self.model.show_movies()
-    #     return movies
-
-    # def show_projections(self, movie_id):
-    #     projections = self.model.show_projections(movie_id)
-    #     if len(projections) == 0:
-    #         return False
-    #     else:
-    #         return projections
-
     def show_seats(self, number_seats, projection_id):
         taken_seats = self.model.get_seats(projection_id)
         if number_seats > 100 - len(taken_seats):
@@ -44,46 +33,8 @@ class UserController:
                 lst_tpls.append(seat)
             return lst_tpls
 
-    # def show_projection_info(self, projection_id):
-    #     pr_info = self.model.get_projection_info(projection_id)
-    #     return pr_info
-
-    def reserve_seats(self, *args):
-        print("HERE")
-        if len(args) != 3:
-            return False
-        else:
-            user_id = args[0]
-            projection_id = args[1]
-            seats = args[2]
-            self.model.reserve_seats(user_id, projection_id, seats)
-
-    def show_user_reservations(self, user_id):
-        user_reservations = self.model.show_user_reservations(user_id)
-        return user_reservations
-
-    def cancel_reservations(self, user_id, reservations):
-        self.model.cancel_reservations(user_id, reservations)
-
     def log_super_admin(self, email):
         self.users_gateway.log_super_admin(email=email)
-
-    # def add_movie(self, name_of_the_movie, rating):
-    #     mes = self.model.add_movie(name_of_the_movie, rating)
-    #     return mes
-
-    # def delete_movie(self, movie_id):
-    #     return self.model.delete_movie(movie_id)
-
-    # def add_projecion(self, movie_id, movie_type, day, hour):
-    #     self.model.add_projection(movie_id, movie_type, day, hour)
-
-    # def get_all_projections(self):
-    #     all_proj = self.model.get_all_projections()
-    #     return all_proj
-
-    # def delete_projection(self, projection_id):
-    #     self.model.delete_projection(projection_id)
 
     def hire_employee(self, employee_id):
         self.users_gateway.hire_employee(employee_id)

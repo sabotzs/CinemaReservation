@@ -23,8 +23,8 @@ def run_employee_view(user):
         options_dic = {
             1: movies_view.add_movie,
             2: movies_view.delete_movie,
-            3: views.add_projection,
-            4: views.delete_projection,
+            3: proj_view.add_projection,
+            4: proj_view.delete_projection,
             5: goodbye_command
         }
         if command < 1 or command > 5:
