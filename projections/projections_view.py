@@ -1,4 +1,3 @@
-import sys
 from .projections_controller import ProjectionsController
 
 

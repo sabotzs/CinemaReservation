@@ -1,5 +1,6 @@
 from .movies_gateway import MoviesGateway
 from db_schema import Database
+from .queries import SELECT_ALL_MOVIES_QUERY
 
 
 class MoviesModel:
@@ -9,12 +10,7 @@ class MoviesModel:
     @staticmethod
     def show_movies():
         db = Database()
-        select_movies_query = '''
-            SELECT id, name, rating
-                FROM movies
-                ORDER BY rating;
-        '''
-        db.cursor.execute(select_movies_query)
+        db.cursor.execute(SELECT_ALL_MOVIES_QUERY)
         movies = db.cursor.fetchall()
         db.connection.commit()
         db.connection.close()

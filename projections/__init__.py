@@ -1,4 +1,2 @@
 from .projections_view import ProjectionsView
-from .projections_model import ProjectionsModel
-from .projections_gateway import ProjectionsGateway
 from .projections_controller import ProjectionsController

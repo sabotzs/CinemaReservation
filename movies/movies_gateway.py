@@ -1,4 +1,11 @@
 from db_schema import Database
+from .queries import (
+    SELECT_ALL_MOVIES_QUERY,
+    SELECT_MOVIE_BY_TITLE_QUERY,
+    INSERT_MOVIE_QUERY,
+    DELETE_MOVIE_QUERY,
+    SEARH_FOR_EXISTING_MOVIE
+)
 
 
 class MoviesGateway:
@@ -7,22 +14,13 @@ class MoviesGateway:
 
     def add_movie(self, *, name_of_the_movie, rating):
         db = Database()
-        search_for_existing_movie = '''
-            SELECT *
-                FROM movies
-                where name = ?;
-        '''
-        db.cursor.execute(search_for_existing_movie, (name_of_the_movie,))
+        db.cursor.execute(SEARH_FOR_EXISTING_MOVIE, (name_of_the_movie,))
         info = db.cursor.fetchone()
         if info is not None:
             return False
         if not self.validate_movie_info(name_of_the_movie, rating):
             return False
-        insert_movie_query = '''
-            INSERT INTO movies (name, rating)
-                VALUES(? ,?);
-        '''
-        db.cursor.execute(insert_movie_query, (name_of_the_movie, rating))
+        db.cursor.execute(INSERT_MOVIE_QUERY, (name_of_the_movie, rating))
         db.connection.commit()
         db.connection.close()
         return True
@@ -34,22 +32,7 @@ class MoviesGateway:
 
     def delete_movie(self, *, movie_id):
         db = Database()
-        get_movie_query = '''
-            SELECT id
-                FROM movies
-                WHERE id = ?
-        '''
-        db.cursor.execute(get_movie_query, (movie_id,))
-        info = db.cursor.fetchone()
-        if info is None:
-            return False
-
-        delete_movie_query = '''
-            DELETE
-            FROM movies
-            WHERE id = ?;
-        '''
-        db.cursor.execute(delete_movie_query, (movie_id,))
+        db.cursor.execute(DELETE_MOVIE_QUERY, (movie_id,))
         db.connection.commit()
         db.connection.close()
         return "Successfully deleted!"
