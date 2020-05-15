@@ -24,9 +24,8 @@ class UserViews:
         email = input('Email for admin: ')
         password = input('Password for admin: ')
 
-        user = self.controller.create_user(email=email, password=password)
-        if user is not None:
-            self.controller.log_super_admin(email)
+        self.controller.create_user(email=email, password=password)
+        self.controller.log_super_admin(email)
 
     def hire_employee(self):
         email = input('Enter employee email: ')

@@ -1,9 +1,11 @@
 import hashlib
-from os import urandom
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
 import re
+from os import urandom
+from db import session_scope
+from sqlalchemy import create_engine
 from .models import Users, Clients, Admins
+from movies import Movies
+from projections import Projections
 
 regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 
@@ -18,17 +20,13 @@ class UserGateway:
         if not self.validate_email(email) or self.email_exists(email) is not None:
             raise ValueError("That user already exists!")
 
-        Session = sessionmaker(bind=self.engine)
-        session = Session()
-
         salt = str(urandom(10))
         salted_password = password + salt
         hashed_password = hashlib.sha256(salted_password.encode()).hexdigest()
 
-        user = Users(email=email, password=hashed_password, salt=salt)
-        session.add(user)
-        session.commit()
-        session.close()
+        with session_scope() as session:
+            user = Users(email=email, password=hashed_password, salt=salt)
+            session.add(user)
 
     def validate_pass(self, password):
         has_digit = any(char.isdigit() for char in password)
@@ -38,14 +36,12 @@ class UserGateway:
         return True
 
     def make_client(self, email):
-        Session = sessionmaker(bind=self.engine)
-        session = Session()
-        user = session.query(Users).filter(Users.email == email).one()
-        user_id = user.id
-        client = Cliens(user_id=user_id)
-        session.commit()
-        session.close()
-        return client
+        with session_scope() as session:
+            user = session.query(Users).filter(Users.email == email).one()
+            user_id = user.id
+            client = Clients(user_id=user_id)
+            session.add(client)
+            return client
 
     def login(self, *, email, password):
         user = self.email_exists(email)
@@ -56,7 +52,7 @@ class UserGateway:
         hashed_password = hashlib.sha256(salted_password.encode()).hexdigest()
 
         if hashed_password == user.password:
-            return user
+            return self.check_status(user.id)
         else:
             return None
 
@@ -65,65 +61,51 @@ class UserGateway:
             return False
         return True
 
+    def check_status(self, user_id):
+        with session_scope() as session:
+            user = session.query(Admins).filter(Admins.user_id == user_id).one_or_none()
+            if user is None:
+                user = session.query(Clients).filter(Clients.user_id == user_id).one()
+            return user
+
     def email_exists(self, email):
-        Session = sessionmaker(bind=self.engine)
-        session = Session()
-        info_by_email = session.query(Users).filter(Users.email == email).one_or_none()
-        session.commit()
-        session.close()
-        return info_by_email
+        with session_scope() as session:
+            info_by_email = session.query(Users).filter(Users.email == email).one_or_none()
+            return info_by_email
 
     def log_super_admin(self, *, email):
-        Session = sessionmaker(bind=self.engine)
-        session = Session()
-        user_id = session.query(Users.id).filter(Users.email == email).one()
-        admin = Admins(user_id=user_id, work_position="Admin")
-        session.add(admin)
-        session.commit()
-        session.close()
+        with session_scope() as session:
+            user_id = session.query(Users.id).filter(Users.email == email).one()
+            admin = Admins(user_id=user_id[0], work_position="Admin")
+            session.add(admin)
 
     def hire_employee(self, employee_id):
-        Session = sessionmaker(bind=self.engine)
-        session = Session()
-        admin = Admins(user_id=employee_id, work_position="Employee")
+        with session_scope() as session:
+            admin = Admins(user_id=employee_id, work_position="Employee")
+            session.add(admin)
 
     def close_cinema(self, permission):
         if not self.check_permsission(permission):
             return False
-        Session = sessionmaker(bind=self.engine)
-        session = Session()
-        session.query(Projections).delete()
-        session.query(Movies).delete()
-        session.commit()
-        session.close()
+        with session_scope() as session:
+            session.query(Projections).delete()
+            session.query(Movies).delete()
 
     def check_permsission(self, permission):
-        Session = sessionmaker(bind=self.engine)
-        session = Session()
-        user_info = session.query(Users).join(Admins.id).filter(Admins.work_position == "Admin").one()
-        salted_password = permission + user_info.salt
-        hashed_password = hashlib.sha256(salted_password.encode()).hexdigest()
-        if hashed_password == user_info.password:
-            return True
-        return False
+        with session_scope() as session:
+            user_info = session.query(Users).join(Admins.id).filter(Admins.work_position == "Admin").one()
+            salted_password = permission + user_info.salt
+            hashed_password = hashlib.sha256(salted_password.encode()).hexdigest()
+            if hashed_password == user_info.password:
+                return True
+            return False
 
     def fire_employee(self, *, email, permission):
-        Session = sessionmaker(bind=self.engine)
-        session = Session()
         if not self.check_permsission(permission):
             return False
-        find_user_query = '''
-            SELECT *
-                FROM users
-                WHERE email = ?;
-        '''
-        user_id = session.query(Users.id).filter(email == email).one_or_none()
-        if user_id is None:
-            return "No such user! "
-        delete_user_query = '''
-            DELETE FROM users
-                WHERE email = ?;
-        '''
-        session.query(Users).filter(Users.id == user_id).delete()
-        session.commit()
-        session.close()
+
+        with session_scope() as session:
+            user_id = session.query(Users.id).filter(email == email).one_or_none()
+            if user_id is None:
+                return "No such user! "
+            session.query(Users).filter(Users.id == user_id).delete()

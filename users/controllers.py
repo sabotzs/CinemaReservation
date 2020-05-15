@@ -13,10 +13,9 @@ class UserController:
         return self.users_gateway.make_client(email)
 
     def login(self, email, password):
-        fetched = self.users_gateway.login(email=email, password=password)
-        if fetched is not None:
-            user = UserModel(user_id=fetched['id'], email=email, password=fetched['password'])
-            return user, fetched['work_position']
+        user = self.users_gateway.login(email=email, password=password)
+        if user is not None:
+            return user
         else:
             raise ValueError('Invalid password!')
 
@@ -27,9 +26,9 @@ class UserController:
         self.users_gateway.hire_employee(employee_id)
 
     def close_cinema(self, permission):
-        close = users_gateway.close_cinema(permission)
+        close = self.users_gateway.close_cinema(permission)
         return close
 
     def fire_employee(self, *, email, permission):
-        fired = users_gateway.fire_employee(email=email, permission=permission)
+        fired = self.users_gateway.fire_employee(email=email, permission=permission)
         return fired

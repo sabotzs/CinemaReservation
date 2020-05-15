@@ -1,11 +1,11 @@
-from users.views import UserViews
+# from users.views import UserViews
 from projections.projections_view import ProjectionsView
 from movies.movies_view import MoviesView
 import sys
 
 
 def run_employee_view(user):
-    views = UserViews()
+    # views = UserViews()
     proj_view = ProjectionsView()
     movies_view = MoviesView()
 

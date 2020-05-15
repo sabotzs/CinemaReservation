@@ -1,4 +1,4 @@
-from users.views import UserViews
+# from users.views import UserViews
 from projections.projections_view import ProjectionsView
 from reservations.reservations_view import ReservationsView
 from movies.movies_view import MoviesView
@@ -6,7 +6,7 @@ import sys
 
 
 def run_client_view(user):
-    user_views = UserViews()
+    # user_views = UserViews()
     proj_view = ProjectionsView()
     movies_view = MoviesView()
     res_view = ReservationsView()
@@ -31,7 +31,7 @@ def run_client_view(user):
 
         f = options_dict.get(command)
         if command == 3 or command == 4:
-            f(user.id)
+            f(user.user_id)
         elif command < 1 or command > 5:
             print("Wrong command! :(")
         else:

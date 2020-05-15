@@ -16,9 +16,9 @@ def login():
     else:
         raise ValueError(f'Unknown command {command}.')
 
-    if isinstance(user, Client):
-        run_client_view(user[0])
+    if isinstance(user, Clients):
+        run_client_view(user)
     elif user.work_possition == "Admin":
-        run_admin_view(user[0])
+        run_admin_view(user)
     elif user.work_possition == "Employee":
-        run_employee_view(user[0])
+        run_employee_view(user)
