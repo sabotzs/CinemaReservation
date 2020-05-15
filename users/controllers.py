@@ -22,8 +22,8 @@ class UserController:
     def log_super_admin(self, email):
         self.users_gateway.log_super_admin(email=email)
 
-    def hire_employee(self, employee_id):
-        self.users_gateway.hire_employee(employee_id)
+    def hire_employee(self, email):
+        self.users_gateway.hire_employee(email=email)
 
     def close_cinema(self, permission):
         close = self.users_gateway.close_cinema(permission)

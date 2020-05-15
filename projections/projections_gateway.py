@@ -10,7 +10,7 @@ class ProjectionsGateway:
 
     def add_projection(self, *, movie_id, movie_type, day, hour):
         with session_scope() as session:
-            projection = Projections(id=movie_id, movie_type=movie_type, day=day, hour=hour)
+            projection = Projections(movie_id=movie_id, movie_type=movie_type, day=day, hour=hour)
             session.add(projection)
 
     def delete_projection(self, *, projection_id):

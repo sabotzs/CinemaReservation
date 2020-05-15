@@ -13,7 +13,7 @@ class ProjectionsController:
             return projections
 
     def add_projecion(self, movie_id, movie_type, day, hour):
-        self.proj_gateway.add_projection(movie_id, movie_type, day, hour)
+        self.proj_gateway.add_projection(movie_id=movie_id, movie_type=movie_type, day=day, hour=hour)
 
     def delete_projection(self, projection_id):
         self.proj_gateway.delete_projection(projection_id)

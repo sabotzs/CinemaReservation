@@ -3,6 +3,7 @@ import re
 from os import urandom
 from db import session_scope
 from sqlalchemy import create_engine
+from sqlalchemy.orm import join
 from .models import Users, Clients, Admins
 from movies import Movies
 from projections import Projections
@@ -79,10 +80,11 @@ class UserGateway:
             admin = Admins(user_id=user_id[0], work_position="Admin")
             session.add(admin)
 
-    def hire_employee(self, employee_id):
+    def hire_employee(self, *, email):
         with session_scope() as session:
-            admin = Admins(user_id=employee_id, work_position="Employee")
-            session.add(admin)
+            user_id = session.query(Users.id).filter(Users.email == email).one()
+            employee = Admins(user_id=user_id[0], work_position="Employee")
+            session.add(employee)
 
     def close_cinema(self, permission):
         if not self.check_permsission(permission):
@@ -93,7 +95,8 @@ class UserGateway:
 
     def check_permsission(self, permission):
         with session_scope() as session:
-            user_info = session.query(Users).join(Admins.id).filter(Admins.work_position == "Admin").one()
+            id_admin = session.query(Admins.user_id).filter(Admins.work_position == "Admin").one_or_none()
+            user_info = session.query(Users).filter(Users.id == id_admin[0]).one_or_none()
             salted_password = permission + user_info.salt
             hashed_password = hashlib.sha256(salted_password.encode()).hexdigest()
             if hashed_password == user_info.password:
@@ -105,7 +108,8 @@ class UserGateway:
             return False
 
         with session_scope() as session:
-            user_id = session.query(Users.id).filter(email == email).one_or_none()
+            user_id = session.query(Users.id).filter(Users.email == email).one_or_none()
             if user_id is None:
                 return "No such user! "
-            session.query(Users).filter(Users.id == user_id).delete()
+            session.query(Users).filter(Users.id == user_id[0]).delete()
+            session.query(Admins).filter(Admins.user_id == user_id[0]).delete()
