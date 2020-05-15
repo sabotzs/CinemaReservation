@@ -1,13 +1,14 @@
 import sys
 from view import *
 from users import create_users
+from movies import create_movies
 
 
 class Application:
     @classmethod
     def build(cls):
         create_users()
-
+        create_movies()
 
     @classmethod
     def admin(cls):
