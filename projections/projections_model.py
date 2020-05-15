@@ -1,11 +1,7 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy import create_engine
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from db import Base
 from movies import Movies
-
-
-Base = declarative_base()
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 
 class Projections(Base):
@@ -16,8 +12,3 @@ class Projections(Base):
     day = Column(String(15))
     hour = Column(String(10))
     movie = relationship(Movies, backref="projections")
-
-
-def create_projections():
-    engine = create_engine("sqlite:///cinema.db")
-    Base.metadata.create_all(engine)

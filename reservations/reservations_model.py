@@ -1,13 +1,8 @@
-from sqlalchemy import Column, Integer, CheckConstraint, ForeignKey
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-
+from db import Base
 from users import Users
 from projections import Projections
-
-
-Base = declarative_base()
+from sqlalchemy import Column, Integer, CheckConstraint, ForeignKey
+from sqlalchemy.orm import relationship
 
 
 class Reservations(Base):
@@ -19,8 +14,3 @@ class Reservations(Base):
     col = Column(Integer, CheckConstraint("0 < col and col < 11"), nullable=False)
     user = relationship(Users, backref="reservations")
     projection = relationship(Projections, backref="reservations")
-
-
-def create_reservations():
-    engine = create_engine("sqlite:///cinema.db")
-    Base.metadata.create_all(engine)

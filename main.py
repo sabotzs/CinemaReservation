@@ -1,14 +1,12 @@
 import sys
+from db import Base, engine
 from view import *
-from users import create_users
-from movies import create_movies
 
 
 class Application:
     @classmethod
     def build(cls):
-        create_users()
-        create_movies()
+        Base.metadata.create_all(engine)
 
     @classmethod
     def admin(cls):
