@@ -1,7 +1,7 @@
 from .reservations_gateway import ReservationsGateway
 
 
-class ResercationsController:
+class ReservationsController:
     def __init__(self):
         self.res_gateway = ReservationsGateway()
 
@@ -27,3 +27,7 @@ class ResercationsController:
             return None
         else:
             return taken_seats
+
+    def show_projection_info(self, projection_id):
+        pr_info = self.res_gateway.get_projection_info(projection_id)
+        return pr_info

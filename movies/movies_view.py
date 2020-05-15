@@ -8,7 +8,7 @@ class MoviesView:
     def show_movies(self):
         movies = self.movies_controller.show_movies()
         for movie in movies:
-            print(f"[{movie['id']}] - {movie['name']} - ({movie['rating']})")
+            print(f"[{movie.id}] - {movie.name} - ({movie.rating})")
 
     def add_movie(self):
         name_of_the_movie = input('Please, insert the title of the movie: ')

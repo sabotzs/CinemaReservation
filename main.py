@@ -1,5 +1,6 @@
 import sys
 from db import Base, engine
+from initialize_db import initialize_movies, initialize_projections
 from view import *
 
 
@@ -7,6 +8,8 @@ class Application:
     @classmethod
     def build(cls):
         Base.metadata.create_all(engine)
+        initialize_movies()
+        initialize_projections()
 
     @classmethod
     def admin(cls):
@@ -35,7 +38,6 @@ if __name__ == '__main__':
     command = sys.argv[1]
 
     if command == 'build':
-
         Application.build()
         Application.admin()
     elif command == 'start':

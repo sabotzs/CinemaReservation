@@ -1,27 +1,16 @@
-from .reservations_controller import ResercationsController
-from movies import MoviesController
-from projections import ProjectionsController
 import sys
+from .reservations_controller import ReservationsController
 
 
 class ReservationsView:
     def __init__(self):
-        self.res_controller = ResercationsController()
-        self.proj_controller = ProjectionsController()
+        self.res_controller = ReservationsController()
 
     def make_reservation(self, user_id):
-        seats = self.get_input('Step 1 (User) Choose number of tickets: ')
-
-        self.show_movies()
-        movie_id = self.get_input('Step 2 (Movie) Choose movie by id: ')
-
-        projections = self.proj_controller.show_projections(movie_id)
-        if projections is False:
-            return
-
-        self.print_projections(projections)
-        projection_id = self.get_input('Step 3 (Projection) Choose projection by id: ')
+        projection_id = self.get_input('Choose projection by id: ')
+        seats = self.get_input('Choose number of tickets: ')
         taken_seats = self.show_seats(seats, projection_id)
+
         if taken_seats is not None:
             selected_seats = self.select_seats(seats, taken_seats)
             self.show_projection_info(projection_id)
@@ -29,25 +18,13 @@ class ReservationsView:
             for seat in selected_seats:
                 seats_info = seats_info + str((seat)) + ' '
 
-        confirmation = input("Step 5 (Confirm - type 'finalize'): ")
+        confirmation = input("Confirm - type 'finalize': ")
         if confirmation == 'finalize':
             self.finalize(user_id, projection_id, selected_seats)
 
-    def show_movies(self):
-        mov_controller = MoviesController()
-        movies = mov_controller.show_movies()
-        for movie in movies:
-            print(f"[{movie['id']}] - {movie['name']} - ({movie['rating']})")
-
-    def print_projections(self, projections):
-        print(f"Projections for movie {projections[0]['name']}:")
-        for proj in projections:
-            print(f"[{proj['id']}] - {proj['day']} {proj['hour']} ({proj['movie_type']}), {100 - proj['reserv_count']}")
-
     def show_projection_info(self, projection_id):
-        pr_info = self.proj_controller.show_projection_info(projection_id)
-        info = f"Movie: {pr_info['name']} ({pr_info['rating']})\n" +\
-            f"Date and Time: {pr_info['day']} {pr_info['hour']} ({pr_info['movie_type']})"
+        pr_info = self.res_controller.show_projection_info(projection_id)
+        info = f"ID: {pr_info.id} Date and Time: {pr_info.day} {pr_info.hour} ({pr_info.movie_type})"
         print(info)
 
     def get_input(self, msg):
@@ -93,10 +70,10 @@ class ReservationsView:
 
     def show_user_reservations(self, user_id):
         user_reservations = self.res_controller.show_user_reservations(user_id)
-        for r in user_reservations:
-            reservation_info = f"ID: {r.id}, Seat ({r.row}, {r.col}) " +\
-                f"for {r.projection.movie.name} ({r.projection.movie_type})" +\
-                f" on {r.projection.day} at {r.projection.hour}"
+        for (res, proj) in user_reservations:
+            reservation_info = f"ID: {res.id}, Seat ({res.row}, {res.col}) " +\
+                f"for {proj.movie.name} ({proj.movie_type})" +\
+                f" on {proj.day} at {proj.hour}"
             print(reservation_info)
 
     def cancel_reservations(self, user_id):

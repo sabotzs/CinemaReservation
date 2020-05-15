@@ -19,18 +19,10 @@ class ProjectionsGateway:
 
     def show_projections(self, movie_id):
         with session_scope() as session:
-            projections = session.query(Projections).\
-                options(joinedload(Projections.movie),
-                        joinedload(func.count(Projections.reservations)).label('reserv_count')).\
-                filter(Projections.movie_id == movie_id).all()
+            projections = session.query(Projections, func.count(Projections.reservations).label('reserv_count')).\
+                join(Projections.reservations, isouter=True).\
+                filter(Projections.movie_id == movie_id).group_by(Projections.id).all()
             return projections
-
-    def get_projection_info(self, projection_id):
-        with session_scope() as session:
-            projection = session.query(Projections).\
-                options(joinedload(Projections.movie)).\
-                filter(Projections.id == projection_id)
-            return projection
 
     def get_all_projections(self):
         with session_scope() as session:
@@ -38,9 +30,3 @@ class ProjectionsGateway:
                 options(joinedload(Projections.movie),
                         joinedload(func.count(Projections.reservations)).label('reserv_count')).all()
             return projections
-
-    def show_movies(self):
-        with session_scope() as session:
-            # Check
-            movies = session.query(Projections.movie).group_by(Projections.movie)
-            return movies

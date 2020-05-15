@@ -26,7 +26,7 @@ def run_admin_view(user):
         options_dic = {
             1: movies_view.add_movie,
             2: movies_view.delete_movie,
-            3: proj_view.add_projection,
+            3: add_projection,
             4: proj_view.delete_projection,
             5: views.hire_employee,
             6: views.fire_employee,
@@ -38,6 +38,15 @@ def run_admin_view(user):
         else:
             f = options_dic.get(command)
             f()
+
+
+def add_projection():
+    movies_view = MoviesView()
+    proj_view = ProjectionsView()
+
+    movies_view.show_movies()
+    movie_id = int(input('Please, insert the id of the movie: '))
+    proj_view.add_projection(movie_id)
 
 
 def goodbye_command():

@@ -30,5 +30,5 @@ class MoviesGateway:
 
     def show_movies(self):
         with session_scope() as session:
-            movies = session.query(Movies).order_by(Movies.id.desc())
+            movies = session.query(Movies).order_by(Movies.rating.desc())
             return movies

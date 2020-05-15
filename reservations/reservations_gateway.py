@@ -19,14 +19,15 @@ class ReservationsGateway:
 
     def show_user_reservations(self, user_id):
         with session_scope() as session:
-            reservations = session.query().\
-                options(joinedload(Reservations.projection).joinedload(Projections.movie)).\
-                filter(Projections.user_id == user_id).all()
+            reservations = session.query(Reservations, Projections).\
+                join(Reservations.projection).\
+                options(joinedload(Projections.movie)).\
+                filter(Reservations.user_id == user_id).all()
             return reservations
 
     def cancel_reservations(self, user_id, reservations):
         with session_scope() as session:
-            user_reservations = session.query(Reservations.user_id).\
+            user_reservations = session.query(Reservations.id).\
                 filter(Reservations.user_id == user_id).all()
 
             for res in reservations:
@@ -36,5 +37,12 @@ class ReservationsGateway:
     def get_seats(self, projection_id):
         with session_scope() as session:
             taken_seats = session.query(Reservations.row, Reservations.col).\
-                filter(Reservations.projection.id == projection_id).all()
+                filter(Reservations.projection_id == projection_id).all()
             return taken_seats
+
+    def get_projection_info(self, projection_id):
+        with session_scope() as session:
+            projection = session.query(Projections).\
+                options(joinedload(Projections.movie)).\
+                filter(Projections.id == projection_id).one()
+            return projection

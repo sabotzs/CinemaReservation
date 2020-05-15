@@ -24,7 +24,7 @@ def run_client_view(user):
         options_dict = {
             1: movies_view.show_movies,
             2: proj_view.show_projections,
-            3: res_view.make_reservation,
+            3: make_reservation,
             4: res_view.cancel_reservations,
             5: goodbye_command
         }
@@ -37,6 +37,18 @@ def run_client_view(user):
         else:
             f = options_dict.get(command)
             f()
+
+
+def make_reservation(user_id):
+    proj_view = ProjectionsView()
+    movies_view = MoviesView()
+    res_view = ReservationsView()
+
+    movies_view.show_movies()
+    projections = proj_view.show_projections()
+    if projections is False:
+        return
+    res_view.make_reservation(user_id)
 
 
 def goodbye_command():
