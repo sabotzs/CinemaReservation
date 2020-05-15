@@ -1,6 +1,7 @@
 from .reservations_controller import ResercationsController
 from movies import MoviesController
 from projections import ProjectionsController
+import sys
 
 
 class ReservationsView:
@@ -93,7 +94,10 @@ class ReservationsView:
     def show_user_reservations(self, user_id):
         user_reservations = self.res_controller.show_user_reservations(user_id)
         for r in user_reservations:
-            print(f"ID: {r['id']}, Seat ({r['row']}, {r['col']}) for {r['name']} ({r['movie_type']}) on {r['day']} at {r['hour']} ")
+            reservation_info = f"ID: {r.id}, Seat ({r.row}, {r.col}) " +\
+                f"for {r.projection.movie.name} ({r.projection.movie_type})" +\
+                f" on {r.projection.day} at {r.projection.hour}"
+            print(reservation_info)
 
     def cancel_reservations(self, user_id):
         self.show_user_reservations(user_id)

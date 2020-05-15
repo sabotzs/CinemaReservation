@@ -1,69 +1,26 @@
-# from db_schema import Database
-from .reservations_gateway import ReservationsGateway
+from sqlalchemy import Column, Integer, CheckConstraint, ForeignKey
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+
+from users import Users
+from projections import Projections
 
 
-class ReservationsModel:
-    def __init__(self):
-        pass
+Base = declarative_base()
 
-    @staticmethod
-    def reserve_seats(user_id, projection_id, seats):
-        gateway = ReservationsGateway()
-        gateway.reserve_seats(user_id, projection_id, seats)
 
-    @staticmethod
-    def show_user_reservations(user_id):
-        db = Database()
-        select_user_reservations_query = '''
-            SELECT reservations.id AS id, row, col, name, movie_type, day, hour
-                FROM reservations
-                JOIN projections
-                    ON reservations.projection_id = projections.id
-                JOIN movies
-                    ON projections.movie_id = movies.id
-                WHERE user_id = ?;
-        '''
-        db.cursor.execute(select_user_reservations_query, (user_id,))
-        user_reservations = db.cursor.fetchall()
-        db.connection.commit()
-        db.connection.close()
-        return user_reservations
+class Reservations(Base):
+    __tablename__ = "reservations"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey(Users.id, ondelete="cascade"))
+    projection_id = Column(Integer, ForeignKey(Projections.id, ondelete="cascade"))
+    row = Column(Integer, CheckConstraint("0 < row and row < 11"), nullable=False)
+    col = Column(Integer, CheckConstraint("0 < col and col < 11"), nullable=False)
+    user = relationship(Users, backref="reservations")
+    projection = relationship(Projections, backref="reservations")
 
-    @staticmethod
-    def cancel_reservations(user_id, reservations):
-        db = Database()
-        select_reservation_query = '''
-            SELECT user_id
-                FROM reservations
-                WHERE id = ?;
-        '''
-        delete_reservation_query = '''
-            DELETE FROM reservations
-                WHERE id = ?;
-        '''
-        for r in reservations:
-            db.cursor.execute(select_reservation_query, (r, ))
-            u_id = db.cursor.fetchone()
-            if u_id[0] == user_id:
-                db.cursor.execute(delete_reservation_query, (r, ))
-            else:
-                print(f"You don't have a reservation {r}")
-        db.connection.commit()
-        db.connection.close()
 
-    @staticmethod
-    def get_seats(projection_id):
-        db = Database()
-        select_taken_seats = '''
-            SELECT row, col
-                FROM projections
-                LEFT JOIN reservations
-                    ON projections.id = reservations.projection_id
-                WHERE projections.id = ?
-                ORDER BY row, col;
-        '''
-        db.cursor.execute(select_taken_seats, (projection_id,))
-        taken_seats = db.cursor.fetchall()
-        db.connection.commit()
-        db.connection.close()
-        return taken_seats
+def create_reservations():
+    engine = create_engine("sqlite:///cinema.db")
+    Base.metadata.create_all(engine)
