@@ -31,7 +31,7 @@ class UserViews:
         email = input('Enter employee email: ')
         password = input('Enter employee password: ')
         employee = self.controller.create_user(email=email, password=password)
-        self.controller.hire_employee(employee[0].id)
+        self.controller.hire_employee(email=email)
 
     def close_cinema(self):
         permission = input("Please, input your password for validation: ")
@@ -48,7 +48,7 @@ class UserViews:
             email=email, permission=permission)
         if isinstance(fired, str):
             return fired
-        if isinstance is False:
+        if fired is False:
             sys.exit("Wrong password! Access is denied! ")
         else:
             print("\n User with email ", email, "was fired! \n ")

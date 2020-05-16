@@ -18,7 +18,7 @@ def login():
 
     if isinstance(user, Clients):
         run_client_view(user)
-    elif user.work_possition == "Admin":
+    elif user.work_position == "Admin":
         run_admin_view(user)
-    elif user.work_possition == "Employee":
+    elif user.work_position == "Employee":
         run_employee_view(user)
