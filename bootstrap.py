@@ -25,3 +25,7 @@ def initialize_projections():
 
 def bootstrap():
     Base.metadata.create_all(engine)
+
+
+def drop():
+    Base.metadata.drop_all(engine)
