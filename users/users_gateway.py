@@ -1,9 +1,7 @@
 import hashlib
 import re
 from os import urandom
-from db import session_scope
-from sqlalchemy import create_engine
-from sqlalchemy.orm import join
+from db import session_scope, engine
 from .models import Users, Clients, Admins
 from movies import Movies
 from projections import Projections
@@ -13,7 +11,7 @@ regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 
 class UserGateway:
     def __init__(self):
-        self.engine = create_engine("sqlite:///cinema.db")
+        self.engine = engine
 
     def create(self, *, email, password):
         if not self.validate_pass(password):

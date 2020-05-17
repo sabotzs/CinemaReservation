@@ -1,11 +1,10 @@
-from db import session_scope
-from sqlalchemy import create_engine
+from db import session_scope, engine
 from .movies_model import Movies
 
 
 class MoviesGateway:
     def __init__(self):
-        self.engine = create_engine("sqlite:///cinema.db")
+        self.engine = engine
 
     def add_movie(self, *, name_of_the_movie, rating):
         with session_scope() as session:

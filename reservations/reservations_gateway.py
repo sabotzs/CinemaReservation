@@ -1,5 +1,4 @@
-from db import session_scope
-from sqlalchemy import create_engine
+from db import session_scope, engine
 from sqlalchemy.orm import joinedload
 from .reservations_model import Reservations
 from projections import Projections
@@ -7,7 +6,7 @@ from projections import Projections
 
 class ReservationsGateway:
     def __init__(self):
-        self.engine = create_engine("sqlite:///cinema.db")
+        self.engine = engine
 
     def reserve_seats(self, user_id, projection_id, seats):
         reservations = [

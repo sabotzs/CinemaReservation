@@ -1,12 +1,12 @@
-from db import session_scope
-from sqlalchemy import create_engine, func
+from db import session_scope, engine
+from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from .projections_model import Projections
 
 
 class ProjectionsGateway:
     def __init__(self):
-        self.engine = create_engine("sqlite:///cinema.db")
+        self.engine = engine
 
     def add_projection(self, *, movie_id, movie_type, day, hour):
         with session_scope() as session:
