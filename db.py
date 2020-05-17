@@ -1,4 +1,6 @@
+import os
 from contextlib import contextmanager
+
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
@@ -6,7 +8,9 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
-engine = create_engine("sqlite:///cinema.db")
+DATABASE_NAME = os.environ.get('DATABASE_TEST_NAME', 'cinema.db')
+
+engine = create_engine(f"sqlite:///{DATABASE_NAME}", echo=True)
 Session = sessionmaker(bind=engine, expire_on_commit=False)
 
 
