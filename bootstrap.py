@@ -1,4 +1,4 @@
-from db import session_scope
+from db import session_scope, Base, engine
 from movies import Movies
 from projections import Projections
 
@@ -21,3 +21,11 @@ def initialize_projections():
             Projections(movie_id=2, movie_type='3D', day='2020-05-16', hour='21:00')
         ]
         session.add_all(projections_list)
+
+
+def bootstrap():
+    Base.metadata.create_all(engine)
+
+
+def drop():
+    Base.metadata.drop_all(engine)

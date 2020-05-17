@@ -1,13 +1,16 @@
 import sys
-from db import Base, engine
-from initialize_db import initialize_movies, initialize_projections
+from bootstrap import (
+    bootstrap,
+    initialize_movies,
+    initialize_projections
+)
 from view import *
 
 
 class Application:
     @classmethod
     def build(cls):
-        Base.metadata.create_all(engine)
+        bootstrap()
         initialize_movies()
         initialize_projections()
 
