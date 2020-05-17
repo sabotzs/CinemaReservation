@@ -9,8 +9,8 @@ class MoviesController:
         movies = self.movie_getaway.show_movies()
         return movies
 
-    def add_movie(self, title, rating):
-        mes = self.movie_getaway.add_movie(title=title, rating=rating)
+    def add_movie(self, name, rating):
+        mes = self.movie_getaway.add_movie(name=name, rating=rating)
         return mes
 
     def delete_movie(self, movie_id):
