@@ -24,8 +24,8 @@ class MoviesGateway:
 
     def delete_movie(self, *, movie_id):
         with session_scope() as session:
-            session.query(Movies).filter(Movies.id == movie_id).delete()
-            return "Successfully deleted"
+            deleted = session.query(Movies).filter(Movies.id == movie_id).delete()
+            return deleted != 0
 
     def show_movies(self):
         with session_scope() as session:

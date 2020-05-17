@@ -20,6 +20,8 @@ class MoviesView:
     def delete_movie(self):
         self.show_movies()
         movie_id = input('Please, insert the id of the movie: ')
-        mes = self.movies_controller.delete_movie(movie_id)
-        if not mes:
+        deleted = self.movies_controller.delete_movie(movie_id)
+        if deleted:
+            print("Successfully deleted")
+        else:
             print(" \n ERROR! No movies with such id! \n ")
