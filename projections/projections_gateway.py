@@ -1,4 +1,4 @@
-from db import session_scope, engine
+from db import session_scope
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from .projections_model import Projections
@@ -6,7 +6,7 @@ from .projections_model import Projections
 
 class ProjectionsGateway:
     def __init__(self):
-        self.engine = engine
+        pass
 
     def add_projection(self, *, movie_id, movie_type, day, hour):
         with session_scope() as session:

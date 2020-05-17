@@ -1,10 +1,10 @@
-from db import session_scope, engine
+from db import session_scope
 from .movies_model import Movies
 
 
 class MoviesGateway:
     def __init__(self):
-        self.engine = engine
+        pass
 
     def add_movie(self, *, name_of_the_movie, rating):
         with session_scope() as session:
