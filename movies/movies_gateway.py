@@ -6,14 +6,14 @@ class MoviesGateway:
     def __init__(self):
         pass
 
-    def add_movie(self, *, name_of_the_movie, rating):
+    def add_movie(self, *, title, rating):
         with session_scope() as session:
-            movie_check = session.query(Movies).filter(Movies.name == name_of_the_movie).one_or_none()
+            movie_check = session.query(Movies).filter(Movies.name == title).one_or_none()
             if movie_check is not None:
                 return False
-            if not self.validate_movie_info(name_of_the_movie, rating):
+            if not self.validate_movie_info(title, rating):
                 return False
-            movie = Movies(name=name_of_the_movie, rating=rating)
+            movie = Movies(name=title, rating=rating)
             session.add(movie)
             return True
 
